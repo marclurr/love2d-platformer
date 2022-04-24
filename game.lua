@@ -1,5 +1,6 @@
 local Object = require("lib.classic")
 local Gamestate = require("lib.hump.gamestate")
+local BaseState = require("base_state")
 local Registry = require("lib.hump.signal")
 local bump = require("lib.bump")
 local anim8 = require("lib.anim8")
@@ -18,28 +19,7 @@ COLLISION_SOLID = 1
 
 eventBus = Registry()
 
-input = {
-    left = Button(),
-    right = Button(),
-    down = Button(),
-    jump = Button()
-}
 
-local inputMap = {
-    keyboard = {
-        a = input.left,
-        s = input.down,
-        d = input.right,
-        j = input.jump
-    },
-
-    gamepad = {
-        dpleft = input.left,
-        dpdown = input.down,
-        dpright = input.right,
-        a = input.jump
-    }
-}
 
 local entityFactories = {
     trigger = require("game.entities.trigger"),
@@ -49,7 +29,7 @@ local entityFactories = {
     strange_door = require("game.entities.strange_door")
 }
 
-local Game = Object:extend()
+local Game = BaseState:extend()
 
 function Game:new()
     self.camera = Camera(DRAW_WIDTH, DRAW_HEIGHT)
@@ -124,9 +104,7 @@ function Game:update(dt)
         self.currentLevel:update(dt)
     end
 
-    for k, b in pairs(input) do
-        b:update()
-    end
+    self.super:updateInput()
 end
 
 function Game:draw(dt)
@@ -170,46 +148,6 @@ function Game:draw(dt)
 
 
     self.camera:detach()
-end
-
-function Game:keyreleased(key)
-    if (inputMap.keyboard[key]) then
-        inputMap.keyboard[key]:release()
-    end
-    if (key == "escape") then 
-        love.event.quit()
-    elseif (key == "1") then
-        self:loadLevel(levels.debug)
-    elseif (key == "2") then
-        self:loadLevel(levels.level1)
-    elseif (key == "f11") then
-        love.window.setFullscreen(not love.window.getFullscreen(), "desktop")
-        DRAW_SCALE = love.graphics.getWidth() / DRAW_WIDTH
-    end
-end
-
-function Game:keypressed(key)
-    if (inputMap.keyboard[key]) then
-        inputMap.keyboard[key]:press()
-    end
-
-    if (key == "x") then
-        programSwitches.debug = not programSwitches.debug
-    end
-end
-
-
-function Game:gamepadpressed(j, button)
-    if (inputMap.gamepad[button]) then
-        inputMap.gamepad[button]:press()
-    end
-end
-
-
-function Game:gamepadreleased(j, button)
-    if (inputMap.gamepad[button]) then
-        inputMap.gamepad[button]:release()
-    end
 end
 
 return Game

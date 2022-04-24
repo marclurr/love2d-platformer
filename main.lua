@@ -13,14 +13,75 @@ require("framework.helpers")
 require("assets")
 require("levels")
 
+local Button = require("framework.button")
+
+local inputEvents = {}
+table.insert(inputEvents, {name="up", bindings={keyboard="w", gamepad="dpup"}})
+table.insert(inputEvents, {name="down", bindings={keyboard="s", gamepad="dpdown"}})
+table.insert(inputEvents, {name="left", bindings={keyboard="a", gamepad="dpleft"}})
+table.insert(inputEvents, {name="right", bindings={keyboard="d", gamepad="dpright"}})
+table.insert(inputEvents, {name="jump", bindings={keyboard="j", gamepad="a"}})
+
+table.insert(inputEvents, {name="ui_accept", bindings={keyboard="j", gamepad="a"}})
+table.insert(inputEvents, {name="ui_cancel", bindings={keyboard="escape", gamepad="b"}})
+
+
+
+-- input = {
+--     left = Button(),
+--     right = Button(),
+--     up = Button(),
+--     down = Button(),
+--     jump = Button()
+-- }
+input = {}
+inputMap = {
+    keyboard = {},
+    gamepad = {}
+}
+
+
+for _, event in ipairs(inputEvents) do
+    input[event.name] = Button()
+    if (inputMap.keyboard[event.bindings.keyboard] == nil) then
+        inputMap.keyboard[event.bindings.keyboard] = {}
+    end
+    if (inputMap.gamepad[event.bindings.gamepad] == nil) then
+        inputMap.gamepad[event.bindings.gamepad] = {}
+    end
+
+    table.insert(inputMap.keyboard[event.bindings.keyboard], input[event.name])
+    table.insert(inputMap.gamepad[event.bindings.gamepad], input[event.name])
+
+end
+-- inputMap = {
+--     keyboard = {
+--         a = input.left,
+--         s = input.down,
+--         d = input.right,
+--         j = input.jump
+--     },
+
+--     gamepad = {
+--         dpleft = input.left,
+--         dpdown = input.down,
+--         dpright = input.right,
+--         a = input.jump
+--     }
+-- }
+
 Gamestate = require("lib.hump.gamestate")
 
 local Game = require("game")
 
-local gs = {}
+local gs = require("base_state"):extend()
 
 function gs:keyreleased(key, code)
-    Gamestate.switch(game, levels.debug)
+    self.super:keyreleased(key, code)
+
+    if (input.ui_accept:justReleased()) then
+        Gamestate.switch(game, levels.debug)
+    end
    
 end
 
@@ -65,7 +126,9 @@ function rem(x)
     return x - round(x)
 end
 
-local fnt = love.graphics.newImageFont("assets/fonts/fonts.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!?/")
+-- local fnt = love.graphics.newImageFont("assets/fonts/fonts.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!?/")
+local fnt = love.graphics.newFont("assets/fonts/ZxSpectrum7-gxy9p.ttf", 15, "mono")
+local fnt2 = love.graphics.newFont("assets/fonts/ZxSpectrum7Bold-ow9lo.ttf", 15, "mono")
 -- fnt:setFilter("nearest", "nearest")
 function love.draw()
     love.graphics.setCanvas(drawbuf)
@@ -73,7 +136,10 @@ function love.draw()
 
     local cx, cy = game.camera:topLeft()
     Gamestate.draw()
-    love.graphics.print("hello world", fnt, 100, 100)
+
+    love.graphics.setColor(1,1,0,1)
+    love.graphics.print("Hello World!?/", fnt, 100, 100)
+    love.graphics.print("Hello World!?/", fnt2, 100, 120)
     
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)

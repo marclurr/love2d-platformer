@@ -12,10 +12,12 @@ end
 
 function Button:press()
     self.pressed = true
+    self.wasPressed = false
 end
 
 function Button:release()
     self.pressed = false
+    self.wasPressed = true
 end
 
 function Button:update()
