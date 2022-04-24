@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-down" width="20" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="26">
+ <editorsettings>
+  <export target="../level1.lua" format="lua"/>
+ </editorsettings>
+ <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="72" columns="12" objectalignment="topleft">
+  <image source="../../assets/tilesets/tileset.png" width="192" height="96"/>
+  <tile id="0">
+   <properties>
+    <property name="one_way" type="bool" value="false"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="one_way" type="bool" value="false"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="one_way" type="bool" value="false"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="solid" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="4">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="solid" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="12">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="14">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="17">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="24">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="solid" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="28">
+   <properties>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="29">
+   <properties>
+    <property name="solid" type="bool" value="false"/>
+   </properties>
+  </tile>
+  <tile id="42">
+   <properties>
+    <property name="drop_through" type="bool" value="true"/>
+    <property name="one_way" type="bool" value="true"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="43">
+   <properties>
+    <property name="drop_through" type="bool" value="true"/>
+    <property name="one_way" type="bool" value="true"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="44">
+   <properties>
+    <property name="drop_through" type="bool" value="true"/>
+    <property name="one_way" type="bool" value="true"/>
+    <property name="solid" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer id="1" name="Tile Layer 1" width="20" height="12">
+  <data encoding="csv">
+4,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,6,
+16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
+16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
+16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
+16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
+16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
+16,0,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
+16,0,25,26,27,43,44,44,44,44,44,44,44,44,44,44,45,0,0,18,
+16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
+16,0,0,1,2,3,0,2,0,2,0,0,0,0,0,1,2,2,2,30,
+28,29,2,30,14,14,29,14,29,14,29,29,29,29,29,30,14,14,14,14,
+14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14,14
+</data>
+ </layer>
+ <objectgroup id="2" name="Object Layer 1">
+  <object id="2" x="192" y="-48"/>
+  <object id="3" x="352" y="144"/>
+  <object id="11" type="player_spawn" x="203" y="96" width="16" height="16"/>
+  <object id="18" type="stone" x="240" y="96" width="16" height="16"/>
+  <object id="19" type="stone" x="224" y="144" width="16" height="16"/>
+  <object id="20" type="stone" x="203" y="144" width="16" height="16"/>
+  <object id="21" type="stone" x="128" y="144" width="16" height="16"/>
+  <object id="22" type="stone" x="96" y="144" width="16" height="16"/>
+  <object id="23" type="stone" x="163" y="144" width="16" height="16"/>
+  <object id="24" type="stone" x="183" y="144" width="16" height="16"/>
+  <object id="25" type="button" x="272" y="144">
+   <polyline points="0,0 16,0"/>
+  </object>
+ </objectgroup>
+</map>
