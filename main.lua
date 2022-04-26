@@ -26,7 +26,6 @@ table.insert(inputEvents, {name="ui_accept", bindings={keyboard="j", gamepad="a"
 table.insert(inputEvents, {name="ui_cancel", bindings={keyboard="escape", gamepad="b"}})
 
 
-
 -- input = {
 --     left = Button(),
 --     right = Button(),
@@ -42,7 +41,7 @@ inputMap = {
 
 
 for _, event in ipairs(inputEvents) do
-    input[event.name] = Button()
+    input[event.name] = Button(event.name)
     if (inputMap.keyboard[event.bindings.keyboard] == nil) then
         inputMap.keyboard[event.bindings.keyboard] = {}
     end
@@ -76,14 +75,17 @@ local Game = require("game")
 
 local gs = require("base_state"):extend()
 
-function gs:keyreleased(key, code)
-    self.super:keyreleased(key, code)
-
-    if (input.ui_accept:justReleased()) then
-        Gamestate.switch(game, levels.debug)
-    end
-   
+function gs:new()
+    self.super.new(self)
+    self.super.registerReleaseEventHandler(self,"ui_accept", self.startGame)
+    self.super.registerPressEventHandler(self,"ui_accept", self.startGame)
 end
+
+function gs:startGame() 
+    Gamestate.switch(game, levels.debug)
+end
+
+
 
 function love.load(args)
     
@@ -91,6 +93,7 @@ function love.load(args)
 
     Gamestate.registerEvents()
     game = Game()
+    init = gs()
 
     programSwitches = {debug = false}
 
@@ -107,7 +110,7 @@ function love.load(args)
             love.event.quit()
         end
     else
-        Gamestate.switch(gs)
+        Gamestate.switch(init)
     end
 
 end

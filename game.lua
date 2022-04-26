@@ -32,12 +32,15 @@ local entityFactories = {
 local Game = BaseState:extend()
 
 function Game:new()
+    self.super.new(self)
     self.camera = Camera(DRAW_WIDTH, DRAW_HEIGHT)
-
 end
 
+function Game:__tostring()
+    return "Game"
+  end
+
 function Game:onPlayerDied()
-    -- print("The player died, bloody hell")
     player:spawn(self.playerSpawnX, self.playerSpawnY)
 end
 

@@ -1,7 +1,8 @@
 local Object = require("lib.classic")
 local Button = Object:extend()
 
-function Button:new()
+function Button:new(name)
+    self.name = name
     self.pressed = false
     self.wasPressed = false
 end
