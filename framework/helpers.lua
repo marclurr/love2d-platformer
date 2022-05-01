@@ -71,3 +71,14 @@ function centreText(text, offset, top)
     love.graphics.print(text, fnt, left + offset, top)
     
 end
+
+function toggleFullscreen()
+    love.window.setFullscreen(not love.window.getFullscreen(), "desktop")
+    DRAW_SCALE = love.graphics.getWidth() / DRAW_WIDTH
+    if (DRAW_SCALE - math.floor(DRAW_SCALE) ~= 0) then
+        local height = DRAW_HEIGHT * DRAW_SCALE
+        viewportY = (love.graphics.getHeight() - height) / 2
+    else
+        viewportY = 0
+    end
+end

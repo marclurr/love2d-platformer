@@ -4,6 +4,7 @@ local Menu = Object:extend()
 function Menu:new()
     self.current = 1
     self.elements = {}
+    self.justify = "centre"
 end
 
 function Menu:getHeight()
@@ -44,6 +45,7 @@ function Menu:update(dt)
         element = self.elements[self.current]
         d = d + 1
     end
+
 end
 
 function Menu:accept()
@@ -52,17 +54,41 @@ function Menu:accept()
 end
 
 function Menu:draw(y)
-    local mid = DRAW_WIDTH / 2
-    local top = y
-    for i=1,#self.elements do
-        local element = self.elements[i]
-        
-        local elWidth = element:getWidth()
-        local x =  elWidth / 2
+    if (self.justify == "centre") then
+        local mid = DRAW_WIDTH / 2
+        local top = y
+        for i=1,#self.elements do
+            local element = self.elements[i]
+            
+            local elWidth = element:getWidth()
+            local x =  elWidth / 2
 
-        element:draw(i == self.current, mid - x, top)
+            element:draw(i == self.current, mid - x, top)
 
-        top = top + element:getHeight()
+            top = top + element:getHeight()
+        end
+    elseif (self.justify == "left") then
+        local width = 0
+        for i=1,#self.elements do
+            local element = self.elements[i]
+            
+            local elWidth = element:getWidth()
+
+            if (elWidth > width) then 
+                width = elWidth
+            end
+        end
+
+        local mid = DRAW_WIDTH / 2
+        local x = mid - (width / 2)
+        local top = y
+        for i=1,#self.elements do
+            local element = self.elements[i]
+            element:draw(i == self.current, x, top)
+
+            top = top + element:getHeight()
+        end
+
     end
 end
 

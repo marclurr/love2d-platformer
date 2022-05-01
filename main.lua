@@ -6,6 +6,8 @@ DRAW_SCALE = love.graphics.getWidth() / DRAW_WIDTH
 WORLD_WIDTH = DRAW_WIDTH / CELL_SIZE
 WORLD_HEIGHT = DRAW_HEIGHT / CELL_SIZE
 
+viewportY = 0
+
 love.graphics.setDefaultFilter("nearest", "nearest")
 love.graphics.setLineStyle("rough")
 
@@ -48,6 +50,24 @@ for _, event in ipairs(inputEvents) do
 
 end
 
+function defineBooleanOption(labels, default)
+    return {
+        type = "boolean",
+        labels = labels,
+        value = value
+    }
+end
+
+options = {}
+options.video = {}
+options.video.fullscreen = {
+    options = {
+        defineBooleanOption("Off", false),
+        defineBooleanOption("On", true)
+    },
+    defaultValue 
+
+}
 
 Gamestate = require("lib.hump.gamestate")
 
@@ -56,15 +76,6 @@ local PauseState = require("pause")
 local TitleState = require("title_menu")
 
 
--- function gs:new()
---     self.super.new(self)
---     self.super.registerReleaseEventHandler(self,"ui_accept", self.startGame)
---     self.super.registerPressEventHandler(self,"ui_accept", self.startGame)
--- end
-
--- function gs:startGame() 
---     Gamestate.switch(game, levels.debug)
--- end
 
 
 
@@ -123,7 +134,7 @@ function love.draw()
    -- love.graphics.print("Hello world!?/", fnt, 100, 100)
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(drawbuf, 0, 0, 0, DRAW_SCALE, DRAW_SCALE)
+    love.graphics.draw(drawbuf, 0, viewportY, 0, DRAW_SCALE, DRAW_SCALE)
     
     if (programSwitches.debug) then 
         love.graphics.print(tostring(love.timer.getFPS()) .. "FPS" .. " " .. tostring(love.timer.getDelta()*1000) .. "ms", 10, 10)
@@ -133,3 +144,20 @@ function love.draw()
 end
 
 
+function love.resizes(w, h)
+    DRAW_SCALE = love.graphics.getWidth() / DRAW_WIDTH
+    if (DRAW_SCALE - math.floor(DRAW_SCALE) ~= 0) then
+        local height = DRAW_HEIGHT * DRAW_SCALE
+        viewportY = (love.graphics.getHeight() - height) / 2
+    else
+        viewportY = 0
+    end
+    -- local remainder = w / DRAW_WIDTH
+    -- print(tostring(remainder))
+    -- if (remainder ~= 0) then
+    --    print(tostring(remainder))
+    -- else
+    --     print("everything is fine")
+    -- end
+   
+end

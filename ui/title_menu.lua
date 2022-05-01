@@ -15,10 +15,18 @@ function TitleMenu:new()
 end
 
 function TitleMenu:draw()
+    local text = "Game Title Goes Here"
+    centreText(text, -1, 16)
+    centreText(text, -1, 15)
+    centreText(text, -1, 17)
+    centreText(text, 1, 16)
+    centreText(text, 1, 15)
+    centreText(text, 1, 17)
     
-    centreText("Game Name: The Revenge", -1, 16)
-    centreText("Game Name: The Revenge", 1, 16)
-    centreText("Game Name: The Revenge", 0, 16)
+    centreText(text, 0, 15)
+    centreText(text, 0, 17)
+    love.graphics.setColor(0.0, 0.0, 0.0, 1)
+    centreText(text, 0, 16)
     -- local menuY = (DRAW_HEIGHT /2) - (self.super.getHeight(self) / 2)
    
     self.super.draw(self, 100)

@@ -6,6 +6,10 @@ local OptionsMenu = Menu.Menu:extend()
 function OptionsMenu:new()
     self.super.new(self)
 
+    self:addElement(MenuElement.TextMenuElement("Fullscreen", toggleFullscreen))
+    self:addElement(MenuElement.TextMenuElement("Debug", function()
+        programSwitches.debug = not programSwitches.debug
+    end))
     self:addElement(MenuElement.TextMenuElement("Back", function()  menuStack:pop() end))
 
 end
@@ -16,7 +20,6 @@ function OptionsMenu:draw()
     local menuY = (DRAW_HEIGHT /2) - (self.super.getHeight(self) / 2)
    
     self.super.draw(self, 64)
-    -- self.super.draw(self, 64)
 end
 
 optionsMenu = OptionsMenu()

@@ -59,10 +59,6 @@ function BaseState:keypressed(key)
             end
         end
     end
-
-    if (key == "x") then
-        programSwitches.debug = not programSwitches.debug
-    end
 end
 
 
