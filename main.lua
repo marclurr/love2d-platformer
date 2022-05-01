@@ -26,13 +26,6 @@ table.insert(inputEvents, {name="ui_accept", bindings={keyboard="j", gamepad="a"
 table.insert(inputEvents, {name="ui_cancel", bindings={keyboard="escape", gamepad="b"}})
 
 
--- input = {
---     left = Button(),
---     right = Button(),
---     up = Button(),
---     down = Button(),
---     jump = Button()
--- }
 input = {}
 inputMap = {
     keyboard = {},
@@ -53,37 +46,23 @@ for _, event in ipairs(inputEvents) do
     table.insert(inputMap.gamepad[event.bindings.gamepad], input[event.name])
 
 end
--- inputMap = {
---     keyboard = {
---         a = input.left,
---         s = input.down,
---         d = input.right,
---         j = input.jump
---     },
 
---     gamepad = {
---         dpleft = input.left,
---         dpdown = input.down,
---         dpright = input.right,
---         a = input.jump
---     }
--- }
 
 Gamestate = require("lib.hump.gamestate")
 
 local Game = require("game")
 
-local gs = require("base_state"):extend()
+local gs = require("title_menu")
 
-function gs:new()
-    self.super.new(self)
-    self.super.registerReleaseEventHandler(self,"ui_accept", self.startGame)
-    self.super.registerPressEventHandler(self,"ui_accept", self.startGame)
-end
+-- function gs:new()
+--     self.super.new(self)
+--     self.super.registerReleaseEventHandler(self,"ui_accept", self.startGame)
+--     self.super.registerPressEventHandler(self,"ui_accept", self.startGame)
+-- end
 
-function gs:startGame() 
-    Gamestate.switch(game, levels.debug)
-end
+-- function gs:startGame() 
+--     Gamestate.switch(game, levels.debug)
+-- end
 
 
 
@@ -129,21 +108,16 @@ function rem(x)
     return x - round(x)
 end
 
--- local fnt = love.graphics.newImageFont("assets/fonts/fonts.png", "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ!?/")
-local fnt = love.graphics.newFont("assets/fonts/ZxSpectrum7-gxy9p.ttf", 15, "mono")
-local fnt2 = love.graphics.newFont("assets/fonts/ZxSpectrum7Bold-ow9lo.ttf", 15, "mono")
--- fnt:setFilter("nearest", "nearest")
+fnt = love.graphics.newFont(10, "mono")
+local fnt2 = love.graphics.newFont(16, "mono")
+
 function love.draw()
     love.graphics.setCanvas(drawbuf)
     love.graphics.clear()
 
     local cx, cy = game.camera:topLeft()
     Gamestate.draw()
-
-    love.graphics.setColor(1,1,0,1)
-    love.graphics.print("Hello World!?/", fnt, 100, 100)
-    love.graphics.print("Hello World!?/", fnt2, 100, 120)
-    
+   -- love.graphics.print("Hello world!?/", fnt, 100, 100)
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(drawbuf, 0, 0, 0, DRAW_SCALE, DRAW_SCALE)

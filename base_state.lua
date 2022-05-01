@@ -36,9 +36,7 @@ function BaseState:keyreleased(key)
         end
     end
 
-    if (input.ui_cancel:justReleased()) then
-        love.event.quit()
-    end
+
 
     -- if (key == "escape") then 
     --     love.event.quit()
