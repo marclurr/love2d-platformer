@@ -12,6 +12,7 @@ love.graphics.setLineStyle("rough")
 require("framework.helpers")
 require("assets")
 require("levels")
+require("ui.menus")
 
 local Button = require("framework.button")
 
@@ -50,9 +51,10 @@ end
 
 Gamestate = require("lib.hump.gamestate")
 
-local Game = require("game")
+local GameState = require("game")
+local PauseState = require("pause")
+local TitleState = require("title_menu")
 
-local gs = require("title_menu")
 
 -- function gs:new()
 --     self.super.new(self)
@@ -71,8 +73,9 @@ function love.load(args)
     drawbuf = love.graphics.newCanvas(DRAW_WIDTH, DRAW_HEIGHT)
 
     Gamestate.registerEvents()
-    game = Game()
-    init = gs()
+    game = GameState()
+    title = TitleState()
+    pause = PauseState()
 
     programSwitches = {debug = false}
 
@@ -89,7 +92,7 @@ function love.load(args)
             love.event.quit()
         end
     else
-        Gamestate.switch(init)
+        Gamestate.switch(title)
     end
 
 end

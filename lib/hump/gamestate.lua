@@ -62,7 +62,8 @@ function GS.push(to, ...)
 end
 
 function GS.pop(...)
-	assert(#stack > 1, "No more states to pop!")
+	-- assert(#stack > 1, "No more states to pop!")
+	if (#stack == 1) then return end
 	local pre, to = stack[#stack], stack[#stack-1]
 	stack[#stack] = nil
 	;(pre.leave or __NULL__)(pre)

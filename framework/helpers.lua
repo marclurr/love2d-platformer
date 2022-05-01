@@ -64,3 +64,10 @@ hitboxDebug = {
         love.graphics.rectangle("line", t.x, t.y, t.w, t.h)
     end
 }
+
+function centreText(text, offset, top) 
+    local left = (DRAW_WIDTH /2) - (fnt:getWidth(text) / 2)
+
+    love.graphics.print(text, fnt, left + offset, top)
+    
+end

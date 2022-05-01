@@ -34,6 +34,12 @@ local Game = BaseState:extend()
 function Game:new()
     self.super.new(self)
     self.camera = Camera(DRAW_WIDTH, DRAW_HEIGHT)
+
+    self.super.registerPressEventHandler(self,"ui_cancel", self.pause)
+end
+
+function Game:pause()
+    Gamestate.push(pause)
 end
 
 function Game:__tostring()
