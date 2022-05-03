@@ -22,4 +22,4 @@ function OptionsMenu:draw()
     self.super.draw(self, 64)
 end
 
-optionsMenu = OptionsMenu()
+return OptionsMenu()

@@ -26,7 +26,7 @@ table.insert(inputEvents, {name="right", bindings={keyboard="d", gamepad="dprigh
 table.insert(inputEvents, {name="jump", bindings={keyboard="j", gamepad="a"}})
 
 table.insert(inputEvents, {name="ui_accept", bindings={keyboard="j", gamepad="a"}})
-table.insert(inputEvents, {name="ui_cancel", bindings={keyboard="escape", gamepad="b"}})
+table.insert(inputEvents, {name="ui_cancel", bindings={keyboard="escape", gamepad="start"}})
 
 
 input = {}

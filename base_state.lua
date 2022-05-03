@@ -64,7 +64,12 @@ end
 
 function BaseState:gamepadpressed(j, button)
     if (inputMap.gamepad[button]) then
-        inputMap.gamepad[button]:press()
+        for _, b in ipairs(inputMap.gamepad[button]) do
+            b:press()
+            if (self.pressEventHandlers[b.name]) then
+             self.pressEventHandlers[b.name](self)
+             end
+         end
         
     end
 end
@@ -72,7 +77,12 @@ end
 
 function BaseState:gamepadreleased(j, button)
     if (inputMap.gamepad[button]) then
-        inputMap.gamepad[button]:release()
+        for _, b in ipairs(inputMap.gamepad[button]) do
+            b:release()
+            if (self.releaseEventHandlers[b.name]) then
+             self.releaseEventHandlers[b.name](self)
+             end
+         end
     end
 end
 

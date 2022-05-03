@@ -20,4 +20,4 @@ function PauseMain:draw()
     self.super.draw(self, 64)
 end
 
-pauseMainMenu = PauseMain()
+return PauseMain()

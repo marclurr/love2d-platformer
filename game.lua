@@ -113,7 +113,7 @@ function Game:update(dt)
         self.currentLevel:update(dt)
     end
 
-    self.super:updateInput()
+    self.super.updateInput(self)
 end
 
 function Game:draw(dt)

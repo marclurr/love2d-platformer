@@ -19,4 +19,4 @@ function QuitConfirm:draw()
     self.super.draw(self, menuY)
 end
 
-quitConfirmMenu = QuitConfirm()
+return QuitConfirm()

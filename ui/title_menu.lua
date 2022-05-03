@@ -33,4 +33,4 @@ function TitleMenu:draw()
     -- self.super.draw(self, 64)
 end
 
-titleMenu = TitleMenu()
+return TitleMenu()
