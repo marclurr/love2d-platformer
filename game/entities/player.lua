@@ -262,6 +262,10 @@ function Player:update(dt)
                 self.vy = mv
             end
         end
+
+        if (input.attack:justPressed()) then
+            self:attack()
+        end
             
         if (self.pushingObj) then
             self.pushingObj:push(self.vx * dt *0.8 )
@@ -390,6 +394,10 @@ end
 function Player:draw()
     local ox = 4
     self.anim:draw(self.spritesheet, math.floor(self.x), math.floor(self.y), 0, 1, 1, ox, 4)
+end
+
+function Player:attack()
+    print("thwack!")
 end
 
 return Player

@@ -24,7 +24,7 @@ end
 function Stone:new(x, y)
     self.x = x 
     self.y = y
-    self.w = 15
+    self.w = 14
     self.h = 15
     self.vx = 0
     self.vy = 0
@@ -112,7 +112,7 @@ function Stone:update(dt)
     end
 
     self.grounded = false
-    local ax, ay, cols, len = self:move(self.vx * dt, self.vy * dt)
+    local ax, ay, cols, len = self:move(0, self.vy * dt)
 
     for i=1,len do
         if (cols[i].normal.y == -1) then
@@ -127,7 +127,7 @@ function Stone:update(dt)
 end
 
 function Stone:draw()
-    love.graphics.draw(self.sprite, round(self.x-0.5), round(self.y-0.5))
+    love.graphics.draw(self.sprite, self.x-0.5, self.y-0.5)
 end
 
 return function(layer, obj)

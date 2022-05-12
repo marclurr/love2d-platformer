@@ -6,10 +6,8 @@ local PauseMain = Menu.Menu:extend()
 function PauseMain:new()
     self.super.new(self)
     self:addElement(MenuElement.TextMenuElement("Continue", function() pause:back() end))
-    self:addElement(MenuElement.TextMenuElement("Options", function() menuStack:push(optionsMenu) end))
-    self:addElement(MenuElement.TextMenuElement("Quit", function()
-        menuStack:push(quitConfirmMenu)
-    end))
+    self:addElement(MenuElement.TextMenuElement("Options", pushMenu(optionsMenu)))
+    self:addElement(MenuElement.TextMenuElement("Quit", pushMenu(quitConfirmMenu)))
 end
 
 function PauseMain:draw()

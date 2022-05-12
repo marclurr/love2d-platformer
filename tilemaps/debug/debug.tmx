@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-down" width="65" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="37">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-down" width="65" height="27" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="40">
  <editorsettings>
   <export target="../debug.lua" format="lua"/>
  </editorsettings>
@@ -264,5 +264,8 @@
    </properties>
    <polyline points="0,0 16,0"/>
   </object>
+  <object id="37" type="stone" x="656" y="272" width="16" height="16"/>
+  <object id="38" type="stone" x="656" y="192" width="16" height="16"/>
+  <object id="39" type="stone" x="656" y="96" width="16" height="16"/>
  </objectgroup>
 </map>

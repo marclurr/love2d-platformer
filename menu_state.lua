@@ -32,6 +32,8 @@ end
 function MenuState:back()
     menuStack:pop()
     if (menuStack:empty()) then
+        -- "consume" input by 
+        self.super.updateInput(self)
         Gamestate.pop()
     end
 end

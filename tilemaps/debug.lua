@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 37,
+  nextobjectid = 40,
   properties = {},
   tilesets = {
     {
@@ -533,6 +533,45 @@ return {
           properties = {
             ["ref"] = { id = 36 }
           }
+        },
+        {
+          id = 37,
+          name = "",
+          type = "stone",
+          shape = "rectangle",
+          x = 656,
+          y = 272,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 38,
+          name = "",
+          type = "stone",
+          shape = "rectangle",
+          x = 656,
+          y = 192,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 39,
+          name = "",
+          type = "stone",
+          shape = "rectangle",
+          x = 656,
+          y = 96,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
         }
       }
     }

@@ -24,6 +24,7 @@ table.insert(inputEvents, {name="down", bindings={keyboard="s", gamepad="dpdown"
 table.insert(inputEvents, {name="left", bindings={keyboard="a", gamepad="dpleft"}})
 table.insert(inputEvents, {name="right", bindings={keyboard="d", gamepad="dpright"}})
 table.insert(inputEvents, {name="jump", bindings={keyboard="j", gamepad="a"}})
+table.insert(inputEvents, {name="attack", bindings={keyboard="k", gamepad="b"}})
 
 table.insert(inputEvents, {name="ui_accept", bindings={keyboard="j", gamepad="a"}})
 table.insert(inputEvents, {name="ui_cancel", bindings={keyboard="escape", gamepad="start"}})
@@ -161,3 +162,4 @@ function love.resizes(w, h)
     -- end
    
 end
+
