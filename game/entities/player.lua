@@ -109,11 +109,11 @@ function Player:resetVars()
 end
 
 function Player:beforeAdd()
-    self.manager.world:add(self, self.x, self.y, self.w, self.h)
+    game.world:add(self, self.x, self.y, self.w, self.h)
 end
 
 function Player:beforeRemove()
-     self.manager.world:remove(self)
+     game.world:remove(self)
 end
 
 function Player:kill()
@@ -145,7 +145,7 @@ function Player:move(x, y, filter)
         end
     end
 
-    local ax, ay, cols, len = self.manager.world:move(self, x, y, filter)
+    local ax, ay, cols, len = game.world:move(self, x, y, filter)
     self.x = ax
     self.y = ay
 
@@ -171,7 +171,7 @@ function Player:check(x, y)
     --     end
     -- end
 
-    local ax, ay, cols, len = self.manager.world:move(self, x, y, filter)
+    local ax, ay, cols, len = game.world:move(self, x, y, filter)
     self.x = ax
     self.y = ay
 
@@ -183,7 +183,7 @@ function Player:spawn(x, y)
     self:resetVars()
     self.x = x
     self.y = y
-    self.manager.world:update(self, x + 4, y + 4)
+    game.world:update(self, x + 4, y + 4)
     -- self:move(x + 4, y + 4, function(l,r) return nil end)
 
     self.state = "spawning"
@@ -306,7 +306,7 @@ function Player:update(dt)
                         if (yoff  <= 3 and yoff > 0) then 
                            
                             self.y = self.y - yoff
-                            self.manager.world:update(self, self.x, self.y)
+                            game.world:update(self, self.x, self.y)
                          
                             collisionIterations = collisionIterations + 1
                             
@@ -337,7 +337,7 @@ function Player:update(dt)
         -- if was grounded but now we're not see if we're close enough to the ground to pull back down
         if (self.grounded and not grounded and self.vy >= 0) then
            
-            local cols, len = self.manager.world:project(self, finalX, finalY, self.w, self.h, finalX, finalY + 3, filter)
+            local cols, len = game.world:project(self, finalX, finalY, self.w, self.h, finalX, finalY + 3, filter)
            
             if (len > 0) then
                 local col = cols[1]
@@ -355,7 +355,7 @@ function Player:update(dt)
         end
         
 
-        self.manager.world:update(self, finalX, finalY)
+        game.world:update(self, finalX, finalY)
         self.x = finalX
         self.y = finalY
 

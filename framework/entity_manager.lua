@@ -3,9 +3,9 @@ local bump =  require("lib.bump")
 
 local EntityManager = Object:extend()
 
-function EntityManager:new() 
+function EntityManager:new(world) 
     self.entities = {}
-    self.world = bump.newWorld()
+    self.world = world
     self.toRemove = {}
     self.nextId = 1
 end

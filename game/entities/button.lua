@@ -21,7 +21,7 @@ end
 
 function Button:beforeAdd()
     
-    self.manager.world:add(self, self.x + 3, self.y, self.w - 3, self.h)
+    game.world:add(self, self.x + 3, self.y, self.w - 3, self.h)
     if (self.ref) then
         for _, entity in ipairs(self.manager.entities) do
             
@@ -36,11 +36,11 @@ function Button:beforeAdd()
 end
 
 function Button:beforeRemove()
-    self.manager.world:remove(self)
+    game.world:remove(self)
 end
 
 function Button:update(dt)
-    local col, len = self.manager.world:queryRect(self.x + 3, self.y-1, self.w - 3, 4, function(other)
+    local col, len = game.world:queryRect(self.x + 3, self.y-1, self.w - 3, 4, function(other)
         if (other == self ) then return nil end
         if (other == player or (other.collisionLayer and bit.band(other.collisionLayer, COLLISION_SOLID) ~= 0)) then
             return "cross"

@@ -36,15 +36,15 @@ function Stone:new(x, y)
 end
 
 function Stone:beforeAdd()
-    self.manager.world:add(self, self.x, self.y, self.w, self.h)
+    game.world:add(self, self.x, self.y, self.w, self.h)
 end
 
 function Stone:beforeRemove()
-    self.manager.world:remove(self)
+    game.world:remove(self)
 end
 
 function Stone:move(vx, vy)
-    local ax, ay, cols, len = self.manager.world:move(self, self.x + vx , self.y + vy, filter)
+    local ax, ay, cols, len = game.world:move(self, self.x + vx , self.y + vy, filter)
     self.x = ax
     self.y = ay
     return ax, ay, cols, len
@@ -58,7 +58,7 @@ function Stone:push(vx)
         collisionIterations = collisionIterations - 1
         maxIter = maxIter + 1
 
-        local ax, ay, cols, len = self.manager.world:check(self, self.x + vx, self.y, filter)
+        local ax, ay, cols, len = game.world:check(self, self.x + vx, self.y, filter)
 
         for i=1,len do
             local col = cols[i]
@@ -69,7 +69,7 @@ function Stone:push(vx)
             
                 if (yoff  <= 3 and yoff > 0) then 
                     self.y = self.y - yoff
-                    self.manager.world:update(self, self.x, self.y)
+                    game.world:update(self, self.x, self.y)
                     
                     collisionIterations = collisionIterations + 1
                 end
@@ -85,7 +85,7 @@ function Stone:push(vx)
         end
     end
 
-    self.manager.world:update(self, finalX, finalY)
+    game.world:update(self, finalX, finalY)
     self.x = finalX
     self.y = finalY
 end

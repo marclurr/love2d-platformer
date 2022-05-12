@@ -52,9 +52,10 @@ end
 
 
 function Game:loadLevel(level)
-    self.manager = EntityManager()
+    self.world = bump.newWorld()
+    self.manager = EntityManager(self.world)
     self.tilemap = TileMap()
-    self.tilemap.onTileAdded = registerTileMapCollisions(self.manager.world) 
+    self.tilemap.onTileAdded = registerTileMapCollisions(self.world) 
 
     local manager = self.manager
     self.tilemap.onObject = function(layer, obj) 
@@ -135,7 +136,7 @@ function Game:draw(dt)
     if (programSwitches.debug) then 
         self.manager:drawDebug()
 
-        local items, len = self.manager.world:getItems()
+        local items, len = self.world:getItems()
         for i=1,len do
             local t = items[i]
             if (t.noDebug ~= true) then
@@ -149,7 +150,6 @@ function Game:draw(dt)
                     love.graphics.setColor(1, 0, 0, 1)
                 end
 
-            
                 love.graphics.rectangle("line", t.x, t.y, t.w, t.h)
             end
         end
