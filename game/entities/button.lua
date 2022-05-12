@@ -23,7 +23,7 @@ function Button:beforeAdd()
     
     game.world:add(self, self.x + 3, self.y, self.w - 3, self.h)
     if (self.ref) then
-        for _, entity in ipairs(self.manager.entities) do
+        for _, entity in ipairs(game.manager.entities) do
             
             if (entity.refId == self.ref) then
                 self.objectUnderControl = entity
