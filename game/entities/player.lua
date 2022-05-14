@@ -67,6 +67,7 @@ function Player:new()
     self.spritesheet = assets.sprites.hero
 
     local g = anim8.newGrid(16, 16, self.spritesheet:getWidth(), self.spritesheet:getHeight())
+    local g2 = anim8.newGrid(32, 16, self.spritesheet:getWidth(), self.spritesheet:getHeight())
 
     self.playerIdle = anim8.newAnimation(g("1-4", 6), 0.2)
     self.playerRun = anim8.newAnimation(g("1-6", 2), 0.1)
@@ -76,6 +77,7 @@ function Player:new()
     self.playerLand = anim8.newAnimation(g("1-3", 11), 0.2, "pauseAtEnd")
     self.playerDie = anim8.newAnimation(g("1-9", 1), 0.065, "pauseAtEnd")
     self.playerRespawn = anim8.newAnimation(g("9-1", 1), 0.065, "pauseAtEnd")
+    self.playerAttack = anim8.newAnimation(g2("1-4", 5), 0.05, "pauseAtEnd")
 
     self.playerIdle.name = "playerIdle"
     self.playerRun.name = "playerRun"
@@ -192,8 +194,8 @@ end
 
 
 
-function Player:playAnimation(newAnim)
-    if (newAnim ~= self.anim) then
+function Player:playAnimation(newAnim, force)
+    if (force or newAnim ~= self.anim) then
         self.anim = newAnim
         self.anim:reset()
 
@@ -217,10 +219,17 @@ function Player:animationComplete(anim)
     elseif (self.state == "spawning") then
         self:playAnimation(self.playerIdle)
         self.state = "alive"
+    elseif (self.state == "attacking") then
+        self:playAnimation(self.playerIdle)
+        self.state = "alive"
     end
 end
 frame = 0
 function Player:update(dt)
+    if (input.attack:justPressed()) then
+        self:attack()
+    end
+
     -- update player movement and collision
     if (self.state == "alive") then
         self.vy = math.min(maxFallSpeed, self.vy + (g * dt))
@@ -263,9 +272,7 @@ function Player:update(dt)
             end
         end
 
-        if (input.attack:justPressed()) then
-            self:attack()
-        end
+
             
         if (self.pushingObj) then
             self.pushingObj:push(self.vx * dt *0.8 )
@@ -393,11 +400,17 @@ end
 
 function Player:draw()
     local ox = 4
+    if (self.flippedH and self.state == "attacking") then 
+        ox = ox +16
+    end
     self.anim:draw(self.spritesheet, math.floor(self.x), math.floor(self.y), 0, 1, 1, ox, 4)
 end
 
 function Player:attack()
-    print("thwack!")
+    if (self.anim == self.playerIdle or self.anim == self.playerRun) then
+        self:playAnimation(self.playerAttack, true)
+        self.state = "attacking"
+    end
 end
 
 return Player

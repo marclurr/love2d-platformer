@@ -29,11 +29,11 @@ function Trigger:new(layer, obj)
 end
 
 function Trigger:beforeAdd()
-    self.manager.world:add(self, self.x, self.y, self.w, self.h)
+    game.world:add(self, self.x, self.y, self.w, self.h)
 end
 
 function Trigger:update(dt)
-    local _, _, cols, len = self.manager.world:check(self, self.x, self.y, function(a,b) 
+    local _, _, cols, len = game.world:check(self, self.x, self.y, function(a,b) 
         if (b == player) then
             return "cross"
         end

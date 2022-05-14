@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-down" width="20" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="26">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-down" width="20" height="12" tilewidth="16" tileheight="16" infinite="0" nextlayerid="3" nextobjectid="27">
  <editorsettings>
   <export target="../level1.lua" format="lua"/>
  </editorsettings>
@@ -119,7 +119,7 @@
 16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
 16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
 16,0,1,2,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
-16,0,25,26,27,43,44,44,44,44,44,44,44,44,44,44,45,0,0,18,
+16,0,0,0,0,43,44,44,44,44,44,44,44,44,44,44,45,0,0,18,
 16,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,18,
 16,0,0,1,2,3,0,2,0,2,0,0,0,0,0,1,2,2,2,30,
 28,29,2,30,14,14,29,14,29,14,29,29,29,29,29,30,14,14,14,14,
@@ -139,6 +139,12 @@
   <object id="24" type="stone" x="183" y="144" width="16" height="16"/>
   <object id="25" type="button" x="272" y="144">
    <polyline points="0,0 16,0"/>
+  </object>
+  <object id="26" type="trap_spikes" x="16" y="160">
+   <properties>
+    <property name="direction" value="up"/>
+   </properties>
+   <polyline points="0,0 32,0"/>
   </object>
  </objectgroup>
 </map>

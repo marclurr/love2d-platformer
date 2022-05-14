@@ -28,19 +28,22 @@ function EntityManager:add(entity)
 end
 
 function EntityManager:update(dt)
+    local entitiesToRemove = {}
     local i = 1
-
-    while i <= #self.entities do
-        local entity = self.entities[i]
+    
+    for i, entity in ipairs(self.entities) do
         entity:update(dt)
         if (entity.isDestroyed) then
             if (entity.beforeRemove) then
                 entity:beforeRemove()
             end
-            self.entities[i] = nil
-        else
-            i = i + 1
+            table.insert(entitiesToRemove, i)
         end
+    end
+    
+    for _, i in ipairs(entitiesToRemove) do
+        local e = self.entities[i]
+        table.remove(self.entities, i)
     end
 end
 

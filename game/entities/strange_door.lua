@@ -64,11 +64,11 @@ function StrangeDoor:animationComplete(anim)
 end
 
 function StrangeDoor:beforeAdd()
-    self.manager.world:add(self.doorCollider, self.doorCollider.x, self.doorCollider.y, self.doorCollider.w, self.doorCollider.h)
+    game.world:add(self.doorCollider, self.doorCollider.x, self.doorCollider.y, self.doorCollider.w, self.doorCollider.h)
 end
 
 function StrangeDoor:beforeRemove()
-    self.manager.world:remove(self.doorCollider)
+    game.world:remove(self.doorCollider)
 end
 
 function StrangeDoor:onSwitchActivated()

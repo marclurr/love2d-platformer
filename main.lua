@@ -8,6 +8,18 @@ WORLD_HEIGHT = DRAW_HEIGHT / CELL_SIZE
 
 viewportY = 0
 
+function trim(s)
+    return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+local d = "width = 1280"
+local s, e = string.find(d, "=")
+local v = string.sub(d, e + 1)
+local w = love.data.unpack("J", "1280")
+print(tostring(w))
+
+
+
 love.graphics.setDefaultFilter("nearest", "nearest")
 love.graphics.setLineStyle("rough")
 
@@ -24,7 +36,7 @@ table.insert(inputEvents, {name="down", bindings={keyboard="s", gamepad="dpdown"
 table.insert(inputEvents, {name="left", bindings={keyboard="a", gamepad="dpleft"}})
 table.insert(inputEvents, {name="right", bindings={keyboard="d", gamepad="dpright"}})
 table.insert(inputEvents, {name="jump", bindings={keyboard="j", gamepad="a"}})
-table.insert(inputEvents, {name="attack", bindings={keyboard="k", gamepad="b"}})
+table.insert(inputEvents, {name="attack", bindings={keyboard="k", gamepad="x"}})
 
 table.insert(inputEvents, {name="ui_accept", bindings={keyboard="j", gamepad="a"}})
 table.insert(inputEvents, {name="ui_cancel", bindings={keyboard="escape", gamepad="start"}})
@@ -81,7 +93,10 @@ local TitleState = require("title_menu")
 
 
 function love.load(args)
+    love.window.setMode(DRAW_WIDTH * 4, DRAW_HEIGHT * 4)
+    updateDrawScaling()
     
+
     drawbuf = love.graphics.newCanvas(DRAW_WIDTH, DRAW_HEIGHT)
 
     Gamestate.registerEvents()
@@ -106,10 +121,8 @@ function love.load(args)
     else
         Gamestate.switch(title)
     end
-
+    
 end
-
-
 
 function love.update(dt)
     Gamestate.update(dt)
@@ -127,12 +140,14 @@ fnt = love.graphics.newFont(10, "mono")
 local fnt2 = love.graphics.newFont(16, "mono")
 
 function love.draw()
+    -- render game
     love.graphics.setCanvas(drawbuf)
     love.graphics.clear()
 
     local cx, cy = game.camera:topLeft()
     Gamestate.draw()
-   -- love.graphics.print("Hello world!?/", fnt, 100, 100)
+   
+    -- render and scale to current viewport
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(drawbuf, 0, viewportY, 0, DRAW_SCALE, DRAW_SCALE)
@@ -162,4 +177,5 @@ function love.resizes(w, h)
     -- end
    
 end
+
 

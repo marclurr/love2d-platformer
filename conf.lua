@@ -1,7 +1,7 @@
 function love.conf(t)
     t.window.title = "Gorgonzola"
-    t.window.width = 1280
-    t.window.height = 720
+    t.window.width = 320 
+    t.window.height = 180 
     t.window.vsync = 1
     t.window.fullscreen = false
     t.window.fullscreentype = "desktop"

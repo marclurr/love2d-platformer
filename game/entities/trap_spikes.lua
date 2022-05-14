@@ -27,16 +27,16 @@ function TrapSpikes:new(x, y, dir)
 end
 
 function TrapSpikes:beforeAdd()
-    self.manager.world:add(self, self.x, self.y, self.w, self.h)
+    game.world:add(self, self.x, self.y, self.w, self.h)
 end
 
 function TrapSpikes:beforeRemove()
-    self.manager.world:remove(self)
+    game.world:remove(self)
 end
 
 function TrapSpikes:update(dt)
     -- self.anim:update(dt)
-    local _, _, cols, len = self.manager.world:check(self, self.x, self.y, function(item, other)
+    local _, _, cols, len = game.world:check(self, self.x, self.y, function(item, other)
         if (other == player) then
             return "cross"
         end
@@ -45,7 +45,6 @@ function TrapSpikes:update(dt)
 
     if (len > 0 and not player:isDead()) then
         player:kill()
-        -- print ("Boom, killed the player " .. tostring(len))
     end
 end
 
