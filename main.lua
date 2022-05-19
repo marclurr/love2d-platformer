@@ -12,11 +12,11 @@ function trim(s)
     return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
 
-local d = "width = 1280"
-local s, e = string.find(d, "=")
-local v = string.sub(d, e + 1)
-local w = love.data.unpack("J", "1280")
-print(tostring(w))
+-- local d = "width = 1280"
+-- local s, e = string.find(d, "=")
+-- local v = string.sub(d, e + 1)
+-- local w = love.data.unpack("J", "1280")
+-- print(tostring(w))
 
 
 
@@ -97,7 +97,7 @@ function love.load(args)
     updateDrawScaling()
     
 
-    drawbuf = love.graphics.newCanvas(DRAW_WIDTH, DRAW_HEIGHT)
+    drawbuf = love.graphics.newCanvas(DRAW_WIDTH+16, DRAW_HEIGHT+16)
 
     Gamestate.registerEvents()
     game = GameState()
@@ -150,12 +150,16 @@ function love.draw()
     -- render and scale to current viewport
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(drawbuf, 0, viewportY, 0, DRAW_SCALE, DRAW_SCALE)
+    -- print(tostring(game.camera.pos.x - math.floor(game.camera.pos.x)))
+    love.graphics.draw(drawbuf, -(game.camera.pos.x - math.floor(game.camera.pos.x)), -(game.camera.pos.y - math.floor(game.camera.pos.y)), 0, DRAW_SCALE, DRAW_SCALE)
     
     if (programSwitches.debug) then 
         love.graphics.print(tostring(love.timer.getFPS()) .. "FPS" .. " " .. tostring(love.timer.getDelta()*1000) .. "ms", 10, 10)
         love.graphics.print(tostring(#game.manager.entities) .. " entities", 10, 22)
         love.graphics.print(tostring(game.manager.world:countItems()) .. " colliders", 10, 34)
+        if (game.player) then
+            love.graphics.print("Player pos: " .. tostring(game.player.x) .. ", " .. tostring(game.player.y), 10, 46)
+        end
     end
 end
 

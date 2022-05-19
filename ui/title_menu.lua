@@ -8,6 +8,7 @@ function TitleMenu:new()
 
     self:addElement(MenuElement.TextMenuElement("Continue"):disable())
     self:addElement(MenuElement.TextMenuElement("New Game", function() 
+        title.super.updateInput(title)
         Gamestate.switch(game, levels.debug)
     end))
     self:addElement(MenuElement.TextMenuElement("Options", pushMenu(optionsMenu)))

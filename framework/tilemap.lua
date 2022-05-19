@@ -56,7 +56,7 @@ function TileMap:load(tiledMap, image)
     self.tileset.image = image
     self.spriteBatch = love.graphics.newSpriteBatch(self.tileset.image, 1000, "stream")
 
-    self.width = tiledMap.width
+    self.width = tiledMap.width 
     self.height = tiledMap.height
     self.tilewidth = tiledMap.tilewidth
     self.tileheight = tiledMap.tileheight
@@ -135,8 +135,8 @@ function TileMap:draw(x,y,w,h)
 
     
     for k,layer in ipairs(self.layers)  do
-        for ty = startY,endY do
-            for tx = startX,endX do
+        for ty = startY-1,endY+1 do
+            for tx = startX-1,endX+1 do
                 if (tx >= 0 and tx < self.width and ty >= 0 and ty < self.height) then 
                     local index = (ty * self.width) + tx
                    

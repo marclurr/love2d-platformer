@@ -12,7 +12,7 @@ local function filter(l, other)
             return nil
         end
         return "slide"
-    elseif (other == player) then
+    elseif (other == game.player) then
         return "slide"
     elseif (other.collisionLayer and bit.band(other.collisionLayer, COLLISION_SOLID) ~= 0) then
         return "slide"
@@ -51,6 +51,8 @@ function Stone:move(vx, vy)
 end
 
 function Stone:push(vx) 
+    if (not self.grounded) then return end
+
     local collisionIterations = 1
     local maxIter = 0
     local finalX, finalY = self.x, self.y
@@ -90,26 +92,8 @@ function Stone:push(vx)
     self.y = finalY
 end
 
-function Stone:onSwitchActivated()
-    self.vy = -400
-end
-
-
-
 function Stone:update(dt)
     self.vy = self.vy + g * dt
-
-    local vel = math.abs(self.vx)
-    vel = vel - (dt * 256)
-    if (vel < 0.1) then 
-        vel = 0
-    end
-
-    if (self.vx < 0) then
-        self.vx = -1 * vel
-    else
-        self.vx = vel
-    end
 
     self.grounded = false
     local ax, ay, cols, len = self:move(0, self.vy * dt)
@@ -118,6 +102,8 @@ function Stone:update(dt)
         if (cols[i].normal.y == -1) then
             self.vy = 0
             self.grounded = true
+        elseif (cols[i].normal.y == 1) then
+            self.vy = 0
         end
 
         if (cols[i].normal.x ~= 0) then
@@ -127,7 +113,7 @@ function Stone:update(dt)
 end
 
 function Stone:draw()
-    love.graphics.draw(self.sprite, self.x-0.5, self.y-0.5)
+    love.graphics.draw(self.sprite, (self.x), (self.y))
 end
 
 return function(layer, obj)

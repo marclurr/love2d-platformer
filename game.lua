@@ -47,7 +47,8 @@ function Game:__tostring()
   end
 
 function Game:onPlayerDied()
-    player:spawn(self.playerSpawnX, self.playerSpawnY)
+    self.player:spawn(self.playerSpawnX, self.playerSpawnY)
+    self.camera:setPosition(self.player.x, self.player.y)
 end
 
 
@@ -84,17 +85,18 @@ function Game:loadLevel(level)
     -- limit camera to tilemap boundaries
     self.camera.min_x = 0
     self.camera.min_y = 0
-    self.camera.max_x = self.tilemap.width * self.tilemap.tilewidth
-    self.camera.max_y = self.tilemap.height * self.tilemap.tileheight
+    self.camera.max_x = (self.tilemap.width-1) * self.tilemap.tilewidth
+    self.camera.max_y = (self.tilemap.height-1) * self.tilemap.tileheight
 
-    if (player) then 
-        self.manager:add(player)
-        player:spawn(self.playerSpawnX, self.playerSpawnY)
+    if (self.player) then 
+        self.manager:add(self.player)
+        self.player:spawn(self.playerSpawnX, self.playerSpawnY , false)
+        self.camera:setPosition(self.player.x, self.player.y)
     end
 end
 
 function Game:enter(old, level)
-    player = Player()
+    self.player = Player()
     self:loadLevel(level)
 end
 
@@ -102,11 +104,18 @@ end
 function Game:update(dt)
     self.manager:update(dt)
 
-    if (player) then
-        self.camera:setPosition(player.x, player.y)
+    if (self.player) then
+        local cx = self.camera.pos.x 
+        local cy = self.camera.pos.y
 
-        if (not player:isDead() and player.y > self.tilemap.height * self.tilemap.tileheight) then
-            player:kill()
+        cx = cx + ((self.player.x - cx) * 8 * dt)
+        cy = cy + ((self.player.y - cy) * 8 * dt)
+
+
+        self.camera:setPosition(cx, cy)
+
+        if (not self.player:isDead() and self.player.y > self.tilemap.height * self.tilemap.tileheight) then
+            self.player:kill()
         end
     end
 
@@ -142,7 +151,7 @@ function Game:draw(dt)
             if (t.noDebug ~= true) then
                 love.graphics.setColor(1, 1, 1, 1)
 
-                if (t == player) then 
+                if (t == self.player) then 
                     love.graphics.setColor(0, 1, 0, 1)
                 elseif (t.tile and self.tilemap:getTileDef(t.id).properties.one_way) then
                     love.graphics.setColor(1, 1, 0, 1)

@@ -37,14 +37,14 @@ end
 function TrapSpikes:update(dt)
     -- self.anim:update(dt)
     local _, _, cols, len = game.world:check(self, self.x, self.y, function(item, other)
-        if (other == player) then
+        if (other == game.player) then
             return "cross"
         end
         return nil
     end)
 
-    if (len > 0 and not player:isDead()) then
-        player:kill()
+    if (len > 0 and not game.player:isDead()) then
+        game.player:kill()
     end
 end
 

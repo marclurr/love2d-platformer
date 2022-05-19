@@ -128,71 +128,19 @@ function Player:isDead()
     return self.state == "dead" or self.state == "dying"
 end
 
-function Player:move(x, y, filter)
-    if (not filter) then
-        filter = function(item, other)
-            local tileDef = game.tilemap.tileset.tiles[other.id]
-            if (other.tile and tileDef and tileDef.properties.solid) then 
-                if (tileDef.properties.one_way) then
-                    if ((item.dropDown and item.dropDown > 0) or item.y + item.h > other.y) then
-                        return nil
-                    end
-                end
-                return "slide" 
-            end
-            if (other.pushable) then
-                return "slide"
-            end
-            return "cross"
-        end
-    end
-
-    local ax, ay, cols, len = game.world:move(self, x, y, filter)
-    self.x = ax
-    self.y = ay
-
-    return ax, ay, cols, len
-end
-
-function Player:check(x, y)
-    -- if (not filter) then
-    --     filter = function(item, other)
-    --         local tileDef = game.tilemap.tileset.tiles[other.id]
-    --         if (other.tile and tileDef and tileDef.properties.solid) then 
-    --             if (tileDef.properties.one_way) then
-    --                 if (self.dropDown > 0 or item.y + item.h > other.y) then
-    --                     return nil
-    --                 end
-    --             end
-    --             return "slide" 
-    --         end
-    --         if (other.pushable) then
-    --             return "slide"
-    --         end
-    --         return "cross"
-    --     end
-    -- end
-
-    local ax, ay, cols, len = game.world:move(self, x, y, filter)
-    self.x = ax
-    self.y = ay
-
-    return ax, ay, cols, len
-end
-
-
-function Player:spawn(x, y)
+function Player:spawn(x, y, animate)
     self:resetVars()
-    self.x = x
-    self.y = y
-    game.world:update(self, x + 4, y + 4)
-    -- self:move(x + 4, y + 4, function(l,r) return nil end)
+    self.x = x + 4
+    self.y = y + 4
+    game.world:update(self, self.x, self.y)
 
     self.state = "spawning"
-    self:playAnimation(self.playerRespawn)
+    if (animate or animate == nil) then
+        self:playAnimation(self.playerRespawn)
+    else
+        self:animationComplete(self.playerRespawn)
+    end
 end
-
-
 
 function Player:playAnimation(newAnim, force)
     if (force or newAnim ~= self.anim) then
@@ -275,7 +223,7 @@ function Player:update(dt)
 
             
         if (self.pushingObj) then
-            self.pushingObj:push(self.vx * dt *0.8 )
+            self.pushingObj:push(self.vx * dt * 0.8  )
         end
 
         frame = frame +1
@@ -296,7 +244,7 @@ function Player:update(dt)
             local goalY = self.y + (self.vy * dt)
 
             
-            local actualX, actualY, cols, len = self:check(goalX, goalY)
+            local actualX, actualY, cols, len = game.world:move(self, goalX, goalY, filter)
 
 
 
@@ -305,7 +253,21 @@ function Player:update(dt)
            
             for i=1,len do  
                 if (cols[i].type == "slide")  then
-                    if (cols[i].normal.x ~= 0) then
+                    if (cols[i].normal.y == -1) then
+                        self.vy = 0
+                        grounded = true
+                    elseif (cols[i].normal.y == 1) then
+                        self.vy = 0
+                    end
+
+                    oneOneWay = onOneWay and (grounded and cols[i].other.tile and game.tilemap:getTileDef(cols[i].other.id).properties.one_way) 
+
+                end  
+            end
+
+            for i=1,len do  
+                if (cols[i].type == "slide")  then
+                    if (grounded and cols[i].normal.x ~= 0) then
                         local o = cols[i].other
                         
                         local yoff =(self.y + self.h) - o.y
@@ -325,18 +287,9 @@ function Player:update(dt)
                             end
                         end
                     end
-
-                    if (cols[i].normal.y == -1) then
-                        self.vy = 0
-                        grounded = true
-                    elseif (cols[i].normal.y == 1) then
-                        self.vy = 0
-                    end
-
-                    oneOneWay = onOneWay and (grounded and cols[i].other.tile and game.tilemap:getTileDef(cols[i].other.id).properties.one_way) 
-
-                end  
+                end
             end
+
             finalX = actualX
             finalY = actualY
         end
@@ -361,7 +314,10 @@ function Player:update(dt)
             self.pushingObj = potentialPush
         end
         
-
+        -- if (not self.pushingObj) then 
+        --     finalX = round(finalX)
+        -- end
+        -- finalY = round(finalY)
         game.world:update(self, finalX, finalY)
         self.x = finalX
         self.y = finalY
@@ -403,7 +359,7 @@ function Player:draw()
     if (self.flippedH and self.state == "attacking") then 
         ox = ox +16
     end
-    self.anim:draw(self.spritesheet, math.floor(self.x), math.floor(self.y), 0, 1, 1, ox, 4)
+    self.anim:draw(self.spritesheet, (self.x), (self.y), 0, 1, 1, ox, 4)
 end
 
 function Player:attack()

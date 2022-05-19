@@ -42,7 +42,7 @@ end
 function Button:update(dt)
     local col, len = game.world:queryRect(self.x + 3, self.y-1, self.w - 3, 4, function(other)
         if (other == self ) then return nil end
-        if (other == player or (other.collisionLayer and bit.band(other.collisionLayer, COLLISION_SOLID) ~= 0)) then
+        if (other == game.player or (other.collisionLayer and bit.band(other.collisionLayer, COLLISION_SOLID) ~= 0)) then
             return "cross"
         end
         return nil

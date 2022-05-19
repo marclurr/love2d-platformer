@@ -29,8 +29,8 @@ function Camera:topLeft()
 end
 
 function Camera:setPosition(newX, newY)
-    self.pos.x = math.max(self.min_x + self.half_width, math.min(self.max_x - self.half_width, newX))
-    self.pos.y = math.max(self.min_y + self.half_height, math.min(self.max_y - self.half_height, newY))
+    self.pos.x = (math.max(self.min_x + self.half_width, math.min(self.max_x - self.half_width, newX)))
+    self.pos.y = (math.max(self.min_y + self.half_height, math.min(self.max_y - self.half_height, newY)))
 end
 
 return Camera
