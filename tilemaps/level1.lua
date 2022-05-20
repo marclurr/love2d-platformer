@@ -77,6 +77,30 @@ return {
           }
         },
         {
+          id = 6,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 7,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 8,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 10,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
           id = 12,
           properties = {
             ["solid"] = true
@@ -96,6 +120,30 @@ return {
         },
         {
           id = 17,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 18,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 20,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 21,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 23,
           properties = {
             ["solid"] = true
           }
@@ -137,6 +185,30 @@ return {
           }
         },
         {
+          id = 30,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 31,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 32,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
+          id = 34,
+          properties = {
+            ["solid"] = true
+          }
+        },
+        {
           id = 42,
           properties = {
             ["drop_through"] = true,
@@ -156,6 +228,27 @@ return {
           id = 44,
           properties = {
             ["drop_through"] = true,
+            ["one_way"] = true,
+            ["solid"] = true
+          }
+        },
+        {
+          id = 54,
+          properties = {
+            ["one_way"] = true,
+            ["solid"] = true
+          }
+        },
+        {
+          id = 55,
+          properties = {
+            ["one_way"] = true,
+            ["solid"] = true
+          }
+        },
+        {
+          id = 56,
+          properties = {
             ["one_way"] = true,
             ["solid"] = true
           }
@@ -181,18 +274,18 @@ return {
       properties = {},
       encoding = "lua",
       data = {
-        4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6,
-        16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18,
-        16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18,
-        16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18,
-        16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18,
-        16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18,
-        16, 0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18,
-        16, 0, 0, 0, 0, 43, 44, 44, 44, 44, 44, 44, 44, 44, 44, 44, 45, 0, 0, 18,
-        16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 18,
-        16, 0, 0, 1, 2, 3, 0, 2, 0, 2, 0, 0, 0, 0, 0, 1, 2, 2, 2, 30,
-        28, 29, 2, 30, 14, 14, 29, 14, 29, 14, 29, 29, 29, 29, 29, 30, 14, 14, 14, 14,
-        14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14
+        10, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 12,
+        22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24,
+        22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24,
+        22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24,
+        22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24,
+        22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24,
+        22, 0, 7, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24,
+        22, 0, 31, 32, 33, 55, 56, 56, 56, 56, 56, 56, 56, 56, 56, 56, 57, 0, 0, 24,
+        22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24,
+        22, 0, 0, 7, 8, 9, 0, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 36,
+        34, 35, 35, 36, 20, 34, 35, 36, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20,
+        20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20, 20
       }
     },
     {
@@ -261,77 +354,12 @@ return {
           properties = {}
         },
         {
-          id = 19,
-          name = "",
-          type = "stone",
-          shape = "rectangle",
-          x = 224,
-          y = 144,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 20,
-          name = "",
-          type = "stone",
-          shape = "rectangle",
-          x = 203,
-          y = 144,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 21,
-          name = "",
-          type = "stone",
-          shape = "rectangle",
-          x = 128,
-          y = 144,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
           id = 22,
           name = "",
           type = "stone",
           shape = "rectangle",
-          x = 96,
-          y = 144,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 23,
-          name = "",
-          type = "stone",
-          shape = "rectangle",
-          x = 163,
-          y = 144,
-          width = 16,
-          height = 16,
-          rotation = 0,
-          visible = true,
-          properties = {}
-        },
-        {
-          id = 24,
-          name = "",
-          type = "stone",
-          shape = "rectangle",
-          x = 183,
-          y = 144,
+          x = 192,
+          y = 128,
           width = 16,
           height = 16,
           rotation = 0,

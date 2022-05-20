@@ -314,10 +314,6 @@ function Player:update(dt)
             self.pushingObj = potentialPush
         end
         
-        -- if (not self.pushingObj) then 
-        --     finalX = round(finalX)
-        -- end
-        -- finalY = round(finalY)
         game.world:update(self, finalX, finalY)
         self.x = finalX
         self.y = finalY
@@ -359,7 +355,7 @@ function Player:draw()
     if (self.flippedH and self.state == "attacking") then 
         ox = ox +16
     end
-    self.anim:draw(self.spritesheet, (self.x), (self.y), 0, 1, 1, ox, 4)
+    self.anim:draw(self.spritesheet, self.x, self.y, 0, 1, 1, ox, 4)
 end
 
 function Player:attack()

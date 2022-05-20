@@ -17,7 +17,7 @@ function BackgroundLayer:draw(x)
     local xOffset = bgPosX - math.floor(bgPosX)
     
     for i=0,1 do
-        love.graphics.draw(self.image, (-xOffset+i) * w, self.y)
+        love.graphics.draw(self.image, round(-xOffset+i) * w, self.y)
     end
 end
 

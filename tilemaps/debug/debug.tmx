@@ -5,188 +5,36 @@
  </editorsettings>
  <tileset firstgid="1" name="tileset" tilewidth="16" tileheight="16" tilecount="72" columns="12" objectalignment="topleft">
   <image source="../../assets/tilesets/tileset.png" width="192" height="96"/>
-  <tile id="0">
-   <properties>
-    <property name="one_way" type="bool" value="false"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="1">
-   <properties>
-    <property name="one_way" type="bool" value="false"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="2">
-   <properties>
-    <property name="one_way" type="bool" value="false"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="3">
-   <properties>
-    <property name="solid" type="bool" value="false"/>
-   </properties>
-  </tile>
-  <tile id="4">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="5">
-   <properties>
-    <property name="solid" type="bool" value="false"/>
-   </properties>
-  </tile>
-  <tile id="12">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="14">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="15">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="17">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="24">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="25">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="26">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="27">
-   <properties>
-    <property name="solid" type="bool" value="false"/>
-   </properties>
-  </tile>
-  <tile id="28">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="29">
-   <properties>
-    <property name="solid" type="bool" value="false"/>
-   </properties>
-  </tile>
-  <tile id="36">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="37">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="38">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="40">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="42">
-   <properties>
-    <property name="drop_through" type="bool" value="true"/>
-    <property name="one_way" type="bool" value="true"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="43">
-   <properties>
-    <property name="drop_through" type="bool" value="true"/>
-    <property name="one_way" type="bool" value="true"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="44">
-   <properties>
-    <property name="drop_through" type="bool" value="true"/>
-    <property name="one_way" type="bool" value="true"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="48">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="50">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="51">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="53">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="54">
-   <properties>
-    <property name="one_way" type="bool" value="true"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="55">
-   <properties>
-    <property name="one_way" type="bool" value="true"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="56">
-   <properties>
-    <property name="one_way" type="bool" value="true"/>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="60">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="61">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="62">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
-  <tile id="64">
-   <properties>
-    <property name="solid" type="bool" value="true"/>
-   </properties>
-  </tile>
+  <tile id="0" type="normal_block"/>
+  <tile id="1" type="normal_block"/>
+  <tile id="2" type="normal_block"/>
+  <tile id="4" type="normal_block"/>
+  <tile id="12" type="normal_block"/>
+  <tile id="14" type="normal_block"/>
+  <tile id="15" type="normal_block"/>
+  <tile id="17" type="normal_block"/>
+  <tile id="24" type="normal_block"/>
+  <tile id="25" type="normal_block"/>
+  <tile id="26" type="normal_block"/>
+  <tile id="28" type="normal_block"/>
+  <tile id="36" type="normal_block"/>
+  <tile id="37" type="normal_block"/>
+  <tile id="38" type="normal_block"/>
+  <tile id="40" type="normal_block"/>
+  <tile id="42" type="one_way_block"/>
+  <tile id="43" type="one_way_block"/>
+  <tile id="44" type="one_way_block"/>
+  <tile id="48" type="normal_block"/>
+  <tile id="50" type="normal_block"/>
+  <tile id="51" type="normal_block"/>
+  <tile id="53" type="normal_block"/>
+  <tile id="54" type="one_way_block"/>
+  <tile id="55" type="one_way_block"/>
+  <tile id="56" type="one_way_block"/>
+  <tile id="60" type="normal_block"/>
+  <tile id="61" type="normal_block"/>
+  <tile id="62" type="normal_block"/>
+  <tile id="64" type="normal_block"/>
  </tileset>
  <layer id="1" name="foreground" width="66" height="28">
   <properties>

@@ -19,7 +19,14 @@ COLLISION_SOLID = 1
 
 eventBus = Registry()
 
-
+local tilePrefabs = {}
+tilePrefabs.normal_block = {
+    ["solid"] = true
+}
+tilePrefabs.one_way_block = {
+    ["solid"] = true,
+    ["one_way"] = true
+}
 
 local entityFactories = {
     trigger = require("game.entities.trigger"),
@@ -55,7 +62,7 @@ end
 function Game:loadLevel(level)
     self.world = bump.newWorld()
     self.manager = EntityManager(self.world)
-    self.tilemap = TileMap()
+    self.tilemap = TileMap(tilePrefabs)
     self.tilemap.onTileAdded = registerTileMapCollisions(self.world) 
 
     local manager = self.manager

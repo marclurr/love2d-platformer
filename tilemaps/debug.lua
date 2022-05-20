@@ -39,219 +39,123 @@ return {
       tiles = {
         {
           id = 0,
-          properties = {
-            ["one_way"] = false,
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 1,
-          properties = {
-            ["one_way"] = false,
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 2,
-          properties = {
-            ["one_way"] = false,
-            ["solid"] = true
-          }
-        },
-        {
-          id = 3,
-          properties = {
-            ["solid"] = false
-          }
+          type = "normal_block"
         },
         {
           id = 4,
-          properties = {
-            ["solid"] = true
-          }
-        },
-        {
-          id = 5,
-          properties = {
-            ["solid"] = false
-          }
+          type = "normal_block"
         },
         {
           id = 12,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 14,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 15,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 17,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 24,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 25,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 26,
-          properties = {
-            ["solid"] = true
-          }
-        },
-        {
-          id = 27,
-          properties = {
-            ["solid"] = false
-          }
+          type = "normal_block"
         },
         {
           id = 28,
-          properties = {
-            ["solid"] = true
-          }
-        },
-        {
-          id = 29,
-          properties = {
-            ["solid"] = false
-          }
+          type = "normal_block"
         },
         {
           id = 36,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 37,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 38,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 40,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 42,
-          properties = {
-            ["drop_through"] = true,
-            ["one_way"] = true,
-            ["solid"] = true
-          }
+          type = "one_way_block"
         },
         {
           id = 43,
-          properties = {
-            ["drop_through"] = true,
-            ["one_way"] = true,
-            ["solid"] = true
-          }
+          type = "one_way_block"
         },
         {
           id = 44,
-          properties = {
-            ["drop_through"] = true,
-            ["one_way"] = true,
-            ["solid"] = true
-          }
+          type = "one_way_block"
         },
         {
           id = 48,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 50,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 51,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 53,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 54,
-          properties = {
-            ["one_way"] = true,
-            ["solid"] = true
-          }
+          type = "one_way_block"
         },
         {
           id = 55,
-          properties = {
-            ["one_way"] = true,
-            ["solid"] = true
-          }
+          type = "one_way_block"
         },
         {
           id = 56,
-          properties = {
-            ["one_way"] = true,
-            ["solid"] = true
-          }
+          type = "one_way_block"
         },
         {
           id = 60,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 61,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 62,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         },
         {
           id = 64,
-          properties = {
-            ["solid"] = true
-          }
+          type = "normal_block"
         }
       }
     }

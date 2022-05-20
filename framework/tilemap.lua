@@ -11,45 +11,18 @@ function findTileDef(tilesets, id)
     return {properties = {}}
 end
 
+
 local Object = require("lib.classic")
 local TileMap = Object:extend()
 
-function TileMap:new()
+function TileMap:new(tilePrefabs)
+    self.tilePrefabs = tilePrefabs
     self.onTileAdded = function(tm, layer, tile) return end
     self.onObject = function(layer, object) return end
     self.layers = {}
     self.tileset = {  
         tiles = {}
     }
-end
-
-function TileMap:clear()
-    
-    self.layers = nil
-    self.tileset = nil
-    collectgarbage("collect")
-    print(tostring(collectgarbage("count")))
-    
-    
-
-    self.layers = {}
-    self.tileset = {
-        tiles = {}
-    }
-    setmetatable(self.layers, {
-        __gc = function()
-            print'table garbage collected'
-        end
-    })
-        
-    setmetatable(self.tileset, {__gc  = function(o) print("o.f.x") end})
-    -- for i, _ in ipairs(self.layers) do
-    --     table.remove(self.layers, i)
-    -- end
-    
-    -- for i, _ in ipairs(self.layers) do
-    --     table.remove(self.layers, i)
-    -- end
 end
 
 function TileMap:load(tiledMap, image)
@@ -68,7 +41,13 @@ function TileMap:load(tiledMap, image)
         local qy = math.floor((i-1) / tilesetCols) * self.tileheight
         local tile = {}
         tile.quad = love.graphics.newQuad(qx, qy, self.tilewidth, self.tileheight, self.tileset.image)
-        tile.properties = findTileDef(tiledMap.tilesets, i).properties
+
+        local tiledTileDef = findTileDef(tiledMap.tilesets, i)
+        if (self.tilePrefabs[tiledTileDef.type]) then
+            tile.properties = self.tilePrefabs[tiledTileDef.type]
+        else
+            tile.properties = {}
+        end
         
         table.insert(self.tileset.tiles, tile)
     end
