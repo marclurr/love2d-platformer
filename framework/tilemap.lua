@@ -74,6 +74,7 @@ function TileMap:load(tiledMap, image)
                     tile.id = t
                     tile.x = x
                     tile.y = y
+                    tile.position = {x = x, y = y}
                     tile.w = tiledMap.tilewidth
                     tile.h = tiledMap.tileheight
     

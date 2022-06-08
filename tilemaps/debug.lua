@@ -229,7 +229,7 @@ return {
           type = "player_spawn",
           shape = "rectangle",
           x = 480,
-          y = 320,
+          y = 208,
           width = 16,
           height = 16,
           rotation = 0,

@@ -1,3 +1,6 @@
+tiny = require("lib.tiny")
+Components = require("game.components")
+
 CELL_SIZE = 16
 DRAW_WIDTH = 320
 DRAW_HEIGHT = 180
@@ -87,6 +90,7 @@ Gamestate = require("lib.hump.gamestate")
 local GameState = require("game")
 local PauseState = require("pause")
 local TitleState = require("title_menu")
+local GameOverState = require("game_over")
 
 function love.load(args)
     love.window.setMode(DRAW_WIDTH * 4, DRAW_HEIGHT * 4)
@@ -99,6 +103,7 @@ function love.load(args)
     game = GameState()
     title = TitleState()
     pause = PauseState()
+    gameOver = GameOverState()
 
     programSwitches = {debug = false}
 

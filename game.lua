@@ -13,6 +13,8 @@ local BackgroundLayer = require("framework.background")
 local Button = require("framework.button")
 local Player = require("game.entities.player")
 
+local drawFilter = tiny.requireAll('isDrawSystem')
+local updateFilter = tiny.rejectAny('isDrawSystem')
 
 COLLISION_SOLID = 1
 COLLISION_PICKUP = 2
@@ -30,13 +32,13 @@ tilePrefabs.one_way_block = {
 }
 
 local entityFactories = {
-    trigger = require("game.entities.trigger"),
+    trigger = require("game.entities_old.trigger"),
     trap_spikes = require("game.entities.trap_spikes"),
-    stone = require("game.entities.stone"),
-    button = require("game.entities.button"),
-    strange_door = require("game.entities.strange_door"),
-    push_ability_pickup = require("game.entities.base_pickup"),
-    attack_ability_pickup = require("game.entities.base_pickup")
+    stone = require("game.entities_old.stone"),
+    button = require("game.entities_old.button"),
+    strange_door = require("game.entities_old.strange_door"),
+    push_ability_pickup = require("game.entities_old.base_pickup"),
+    attack_ability_pickup = require("game.entities_old.base_pickup")
 }
 
 local Game = BaseState:extend()
@@ -64,6 +66,17 @@ end
 
 function Game:loadLevel(level)
     self.world = bump.newWorld()
+    self.registry = tiny.world(
+        require("game.systems.player_death_system")(),
+        require("game.systems.bump_system")(),
+        require("game.systems.platforming_system")(),
+        require("game.systems.platforming_animation")(),
+        require("game.systems.instakill_system")(),
+        require("game.systems.health_system")(),
+        require("game.systems.camera_system")(),
+        require("game.systems.animation_system")(),
+        require("game.systems.sprite_system")()
+    )
     self.manager = EntityManager(self.world)
     self.tilemap = TileMap(tilePrefabs)
     self.tilemap.onTileAdded = registerTileMapCollisions(self.world) 
@@ -78,10 +91,12 @@ function Game:loadLevel(level)
                 local refId = obj.id
                 local r,l = entityFactories[obj.type](layer, obj)
                 if (l and l > 0) then 
-                    manager:addAll(r)
+                    for i = 1,l do
+                        self.registry:add(r[i])
+                    end
                 else
                     r.refId = refId
-                    manager:add(r)
+                    self.registry:add(r)
                 end
             end
         end
@@ -98,38 +113,29 @@ function Game:loadLevel(level)
     self.camera.max_x = (self.tilemap.width-1) * self.tilemap.tilewidth
     self.camera.max_y = (self.tilemap.height-1) * self.tilemap.tileheight
 
-    if (self.player) then 
-        self.manager:add(self.player)
-        self.player:spawn(self.playerSpawnX, self.playerSpawnY , false)
-        self.camera:setPosition(self.player.x, self.player.y)
-    end
+    self.player = Player(self.playerSpawnX, self.playerSpawnY)
 
+    self.registry:add(self.player)
 
+    self.camera:setPosition(self.player.position.x, self.player.position.y)
 
 end
 
 function Game:enter(old, level)
-    self.player = Player()
+    -- self.player = Player()
     self:loadLevel(level)
 end
 
 
 function Game:update(dt)
-    self.manager:update(dt)
+    self.registry:update(dt, updateFilter)
+    -- self.manager:update(dt)
 
     if (self.player) then
-        local cx = self.camera.pos.x 
-        local cy = self.camera.pos.y
-
-        cx = cx + ((self.player.x - cx) * 8 * dt)
-        cy = cy + ((self.player.y - cy) * 8 * dt)
-
-
-        self.camera:setPosition(cx, cy)
-
-        if (not self.player:isDead() and self.player.y > self.tilemap.height * self.tilemap.tileheight) then
-            self.player:kill()
-        end
+  
+        -- if (not self.player:isDead() and self.player.y > self.tilemap.height * self.tilemap.tileheight) then
+        --     self.player:kill()
+        -- end
     end
 
     if (self.currentLevel.update) then 
@@ -139,7 +145,9 @@ function Game:update(dt)
     self.super.updateInput(self)
 end
 
-function Game:draw(dt)
+function Game:draw()
+    local dt = love.timer.getDelta()
+
     love.graphics.clear()
 
     local cx, cy = self.camera:topLeft()
@@ -153,11 +161,9 @@ function Game:draw(dt)
 
     love.graphics.setColor(1, 1, 1, 1)   
     self.tilemap:draw(cx, cy, self.camera.width, self.camera.height)
-    self.manager:draw()
+    self.registry:update(dt, drawFilter)
 
     if (programSwitches.debug) then 
-        self.manager:drawDebug()
-
         local items, len = self.world:getItems()
         for i=1,len do
             local t = items[i]
@@ -172,7 +178,11 @@ function Game:draw(dt)
                     love.graphics.setColor(1, 0, 0, 1)
                 end
 
-                love.graphics.rectangle("line", t.x, t.y, t.w, t.h)
+                if (t.tile) then
+                    love.graphics.rectangle("line", t.x, t.y, t.w, t.h)
+                elseif (t.position and t.hitbox) then
+                    love.graphics.rectangle("line", t.position.x, t.position.y, t.hitbox.w, t.hitbox.h)
+                end
             end
         end
     end

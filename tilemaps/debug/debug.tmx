@@ -72,7 +72,7 @@
 </data>
  </layer>
  <objectgroup id="3" name="objects">
-  <object id="3" type="player_spawn" x="480" y="320" width="16" height="16"/>
+  <object id="3" type="player_spawn" x="480" y="208" width="16" height="16"/>
   <object id="23" type="trap_spikes" x="288" y="400">
    <properties>
     <property name="direction" value="up"/>

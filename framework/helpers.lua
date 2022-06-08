@@ -1,12 +1,10 @@
 
 function registerTileMapCollisions(world)
-    return function(tm, layer, tile)
-        
+    return function(tm, layer, tile)        
         local tileDef = tm:getTileDef(tile.id)
         if (tileDef and tileDef.properties.solid == true) then 
             world:add(tile, tile.x, tile.y, tile.w, tile.h)
         end
-    
     end
 end
 
