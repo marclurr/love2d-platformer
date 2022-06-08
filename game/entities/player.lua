@@ -1,5 +1,7 @@
 local Object = require("lib.classic")
 local anim8 = require("lib.anim8")
+local Entity = require("framework.entity")
+local AnimationPlayer = require("framework.animation_player")
 
 
 
@@ -53,9 +55,10 @@ local g = (2 * jumpHeight) / (jumpDuration * jumpDuration)
 local v = -math.sqrt(2 * g * jumpHeight) 
 local mv = -math.sqrt(2 * g * minJumpHeight)
 local maxFallSpeed = 28 * CELL_SIZE
-local Player = Object:extend()
+local Player = Entity:extend()
 
 function Player:new()
+    self.super.new(self)
     self.x = 0
     self.y = 0
     self.w = 8
@@ -63,7 +66,10 @@ function Player:new()
     self.vx = 0
     self.vy = 0
 
-    
+    self.abilities = {}
+    self.abilities.push = false
+    self.abilities.attack = false
+
     self.spritesheet = assets.sprites.hero
 
     local g = anim8.newGrid(16, 16, self.spritesheet:getWidth(), self.spritesheet:getHeight())
@@ -88,7 +94,10 @@ function Player:new()
     self.playerDie.name = "playerDie"
     self.playerRespawn.name = "playerRespawn"
 
-    self.anim = self.playerDie
+    self.animationPlayer = AnimationPlayer()
+    self.animationPlayer:play(self.playerDie)
+    self:playAnimation(self.playerDie)
+    -- self.anim = self.playerDie
     self.anim:gotoFrame(9)
 
     self.dropDown = 0
@@ -142,22 +151,6 @@ function Player:spawn(x, y, animate)
     end
 end
 
-function Player:playAnimation(newAnim, force)
-    if (force or newAnim ~= self.anim) then
-        self.anim = newAnim
-        self.anim:reset()
-
-    end
-end
-
-function Player:updateAnimation(dt)
-    self.anim.flippedH = self.flippedH
-    self.anim:update(dt)
-    if (self.anim.status == "paused") then
-        self:animationComplete(self.anim)
-    end
-
-end
 
 function Player:animationComplete(anim) 
     if (self.state == "dying") then
@@ -222,7 +215,7 @@ function Player:update(dt)
 
 
             
-        if (self.pushingObj) then
+        if (self.pushingObj and self.abilities.push) then
             self.pushingObj:push(self.vx * dt * 0.8  )
         end
 
@@ -275,7 +268,7 @@ function Player:update(dt)
                         if (yoff  <= 3 and yoff > 0) then 
                            
                             self.y = self.y - yoff
-                            game.world:update(self, self.x, self.y)
+                            game.world:move(self, self.x, self.y, filter)
                          
                             collisionIterations = collisionIterations + 1
                             
@@ -359,9 +352,11 @@ function Player:draw()
 end
 
 function Player:attack()
-    if (self.anim == self.playerIdle or self.anim == self.playerRun) then
-        self:playAnimation(self.playerAttack, true)
-        self.state = "attacking"
+    if (self.abilities.attack) then 
+        if (self.anim == self.playerIdle or self.anim == self.playerRun) then
+            self:playAnimation(self.playerAttack, true)
+            self.state = "attacking"
+        end
     end
 end
 

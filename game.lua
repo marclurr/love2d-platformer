@@ -15,6 +15,7 @@ local Player = require("game.entities.player")
 
 
 COLLISION_SOLID = 1
+COLLISION_PICKUP = 2
 
 
 eventBus = Registry()
@@ -33,7 +34,9 @@ local entityFactories = {
     trap_spikes = require("game.entities.trap_spikes"),
     stone = require("game.entities.stone"),
     button = require("game.entities.button"),
-    strange_door = require("game.entities.strange_door")
+    strange_door = require("game.entities.strange_door"),
+    push_ability_pickup = require("game.entities.base_pickup"),
+    attack_ability_pickup = require("game.entities.base_pickup")
 }
 
 local Game = BaseState:extend()
@@ -100,6 +103,9 @@ function Game:loadLevel(level)
         self.player:spawn(self.playerSpawnX, self.playerSpawnY , false)
         self.camera:setPosition(self.player.x, self.player.y)
     end
+
+
+
 end
 
 function Game:enter(old, level)

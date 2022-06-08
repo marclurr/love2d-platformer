@@ -88,10 +88,6 @@ local GameState = require("game")
 local PauseState = require("pause")
 local TitleState = require("title_menu")
 
-
-
-
-
 function love.load(args)
     love.window.setMode(DRAW_WIDTH * 4, DRAW_HEIGHT * 4)
     updateDrawScaling()
@@ -146,12 +142,21 @@ function love.draw()
 
     local cx, cy = game.camera:topLeft()
     Gamestate.draw()
-   
+
     -- render and scale to current viewport
     love.graphics.setCanvas()
     love.graphics.setColor(1, 1, 1, 1)
-    -- print(tostring(game.camera.pos.x - math.floor(game.camera.pos.x)))
-    love.graphics.draw(drawbuf, -(game.camera.pos.x - math.floor(game.camera.pos.x)), -(game.camera.pos.y - math.floor(game.camera.pos.y)), 0, DRAW_SCALE, DRAW_SCALE)
+   
+    local xOff = 0
+    local yOff = 0
+
+    if (Gamestate.current() == game) then
+        xOff = -(game.camera.pos.x - math.floor(game.camera.pos.x))
+        yOff = -(game.camera.pos.y - math.floor(game.camera.pos.y))
+    end
+
+
+    love.graphics.draw(drawbuf, xOff, viewportY + yOff, 0, DRAW_SCALE, DRAW_SCALE)
     
     if (programSwitches.debug) then 
         love.graphics.print(tostring(love.timer.getFPS()) .. "FPS" .. " " .. tostring(love.timer.getDelta()*1000) .. "ms", 10, 10)
@@ -172,14 +177,6 @@ function love.resizes(w, h)
     else
         viewportY = 0
     end
-    -- local remainder = w / DRAW_WIDTH
-    -- print(tostring(remainder))
-    -- if (remainder ~= 0) then
-    --    print(tostring(remainder))
-    -- else
-    --     print("everything is fine")
-    -- end
-   
 end
 
 

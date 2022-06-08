@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 43,
+  nextobjectid = 47,
   properties = {},
   tilesets = {
     {
@@ -229,7 +229,7 @@ return {
           type = "player_spawn",
           shape = "rectangle",
           x = 480,
-          y = 32,
+          y = 320,
           width = 16,
           height = 16,
           rotation = 0,
@@ -407,6 +407,51 @@ return {
           shape = "rectangle",
           x = 416,
           y = 384,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 43,
+          name = "",
+          type = "button",
+          shape = "polyline",
+          x = 464,
+          y = 400,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polyline = {
+            { x = 0, y = 0 },
+            { x = 16, y = 0 }
+          },
+          properties = {
+            ["ref"] = { id = 0 }
+          }
+        },
+        {
+          id = 44,
+          name = "",
+          type = "push_ability_pickup",
+          shape = "rectangle",
+          x = 384,
+          y = 224,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 46,
+          name = "",
+          type = "attack_ability_pickup",
+          shape = "rectangle",
+          x = 384,
+          y = 272,
           width = 16,
           height = 16,
           rotation = 0,
