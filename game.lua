@@ -70,10 +70,13 @@ function Game:loadLevel(level)
         require("game.systems.player_death_system")(),
         require("game.systems.bump_system")(),
         require("game.systems.platforming_system")(),
+        require("game.systems.physics_system")(),
         require("game.systems.platforming_animation")(),
-        require("game.systems.instakill_system")(),
+        require("game.systems.trigger_system")(),
         require("game.systems.health_system")(),
         require("game.systems.camera_system")(),
+
+        
         require("game.systems.animation_system")(),
         require("game.systems.sprite_system")()
     )
@@ -116,7 +119,7 @@ function Game:loadLevel(level)
     self.player = Player(self.playerSpawnX, self.playerSpawnY)
 
     self.registry:add(self.player)
-
+    
     self.camera:setPosition(self.player.position.x, self.player.position.y)
 
 end

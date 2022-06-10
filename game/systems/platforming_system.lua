@@ -43,14 +43,16 @@ local function filter(item, other)
 end
 
 function PlatformingSystem:new()
-    self.filter = tiny.requireAll("platforming", "position", "velocity", "hitbox")
+    self.filter = tiny.requireAll("physics", "platforming", "position", "velocity", "hitbox")
 end
 
 function PlatformingSystem:process(e, dt)
     local pos = e.position
     local vel = e.velocity
     local hitbox = e.hitbox
+    local physics = e.physics
     local platforming = e.platforming
+
     if (not platforming.jumpButtonLatch) then 
         platforming.jumpButtonLatch = Latch(4 * (1/60))
     end
@@ -58,16 +60,21 @@ function PlatformingSystem:process(e, dt)
         platforming.groundedLatch = Latch(6 * (1 / 60))
     end
 
+    platforming.grounded = physics.onGround
+    platforming.groundedLatch:update(platforming.grounded, dt)
+    platforming.onOneWay = physics.onOneWay
+    platforming.pushing = physics.onWall
+
+
+
     vel.y = math.min(vel.y + platforming.gravity * dt, platforming.maxFallSpeed)
     platforming.dropDown = math.max(platforming.dropDown - dt, 0)
 
     vel.x = 0
     if (input.right.pressed) then 
-        -- self.flippedH = false
         vel.x = platforming.runSpeed
         platforming.direction = "r"
     elseif (input.left.pressed) then
-        -- self.flippedH = true
         vel.x = -platforming.runSpeed 
         platforming.direction = "l"
     end
@@ -89,83 +96,6 @@ function PlatformingSystem:process(e, dt)
             vel.y = platforming.minJumpVelocity
         end
     end
-
-    local collisionIterations = 1
-    local iter = 0
-    local finalX = pos.x
-    local finalY = pos.y
-    local grounded = false
-
-    
-    while collisionIterations > 0  and iter < 3 do
-        iter = iter + 1
-        collisionIterations = collisionIterations - 1
-
-        local goalX = pos.x + (vel.x * dt)
-        local goalY = pos.y + (vel.y * dt)
-        local actualX, actualY, cols, len = game.world:move(e, goalX, goalY, filter)
-        
-        local onOneWay = true
-        
-        for i=1,len do  
-            if (cols[i].type == "slide")  then
-                if (cols[i].normal.y ~= 0) then
-                    vel.y = 0
-                end
-                grounded = cols[i].normal.y == -1
-                oneOneWay = onOneWay and (grounded and cols[i].other.tile and game.tilemap:getTileDef(cols[i].other.id).properties.one_way) 
-            end  
-        end
-        
-        platforming.pushing = false
-        for i=1,len do  
-            if (cols[i].type == "slide")  then
-                if (grounded and cols[i].normal.x ~= 0) then
-                    local o = cols[i].other
-                    
-                    local yoff =(pos.y + hitbox.h) - o.position.y
-                    if (yoff  <= 3 and yoff > 0) then     
-                        -- handle stepping up onto low offset objects
-                        pos.y = pos.y - yoff
-                        game.world:move(e, pos.x, pos.y, filter)
-                    
-                        collisionIterations = collisionIterations + 1
-                        
-                    else
-                        platforming.pushing = true
-                    
-                    --     if (o.pushable and o.grounded) then
-                    --         potentialPush = o
-                    --     end
-                    end
-                end
-            end
-        end
-        finalX = actualX
-        finalY = actualY
-        platforming.onOneWay = onOneWay
-    end
-
-    -- if was grounded but now we're not see if we're close enough to the ground to pull back down
-    if (platforming.grounded and not grounded and vel.y >= 0) then
-    
-        local cols, len = game.world:project(e, finalX, finalY, hitbox.w, hitbox.h, finalX, finalY + 3, filter)
-        
-        if (len > 0) then
-            local col = cols[1]
-            if (col.type=="slide" and col.normal.y == -1) then
-                finalY = col.touch.y
-                vel.y = 0
-                grounded = true
-            end
-        end
-        
-    end
-    
-    pos.x = finalX
-    pos.y = finalY
-    platforming.grounded = grounded
-    platforming.groundedLatch:update(grounded, dt)    
 end
     
 return PlatformingSystem

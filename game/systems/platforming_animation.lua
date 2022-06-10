@@ -2,7 +2,7 @@ local Object = require("lib.classic")
 local PlatformingAnimationSystem = tiny.processingSystem(Object:extend())
 
 function PlatformingAnimationSystem:new()
-    self.filter = tiny.requireAll("platforming_animation", "platforming", "sprite", "velocity")
+    self.filter = tiny.requireAll("platforming_animation", "platforming", "physics", "sprite", "velocity")
 end
 
 function PlatformingAnimationSystem:process(e, dt)
@@ -10,9 +10,10 @@ function PlatformingAnimationSystem:process(e, dt)
     local platforming = e.platforming
     local vel = e.velocity
     local an = e.sprite
+    local physics = e.physics
 
     if (platforming.grounded) then
-        if (platforming.pushing) then
+        if (physics.onWall) then
             an.animation = pan.push
         else 
             if (vel.x ~= 0) then

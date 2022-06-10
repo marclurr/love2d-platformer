@@ -20,6 +20,15 @@ Components.hitbox = function(e, w, h, isSolid)
     e.isSolid = isSolid or true
 end
 
+Components.physics = function(e, filter)
+    e.physics = {
+        onGround = false,
+        onWall = false,
+        onOneWay = false, 
+        filter = filter 
+    }
+end
+
 Components.sprite = function(e, spritesheet, ox, oy)
     e.sprite = {
         spritesheet = spritesheet,
@@ -40,6 +49,18 @@ Components.health = function(e, maxHealth, currentHealth)
         owner = e,
         max = maxHealth,
         current = currentHealth or maxHealth
+    }
+end
+
+Components.trigger = function(e, predicate)
+    e.trigger = {
+        overlappingObjs = {},
+        filter = function(item, other)
+            if (predicate(other)) then 
+                return "cross"
+            end
+            return nil
+        end
     }
 end
 

@@ -12,11 +12,31 @@ Player.animations = {
     die = anim8.newAnimation(g("1-9", 1), 0.065, "pauseAtEnd")
 }
 
+
+local function physicsFilter(item, other)
+    local tileDef = game.tilemap.tileset.tiles[other.id]
+    if (other.tile and tileDef and tileDef.properties.solid) then 
+        if (tileDef.properties.one_way) then
+            if ((item.platforming and item.platforming.dropDown and item.platforming.dropDown > 0) or item.position.y + item.hitbox.h > other.y) then
+                return nil
+            end
+        end
+        return "slide" 
+    end
+    if (other.collisionLayer and bit.band(other.collisionLayer, COLLISION_SOLID) ~= 0) then
+        return "slide"
+    end
+    return "cross"
+end
+
 function Player:new(initialX, initialY)
+    self.id = 99999
+    self.name = "Player"
     self.isPlayer = true
     Components.position(self, initialX, initialY)
     Components.velocity(self)
     Components.hitbox(self, 8, 12)
+    Components.physics(self, physicsFilter)
     Components.animatedSprite(self, assets.sprites.hero, Player.animations.idle, 4, 4)
     Components.health(self, 3)
     
@@ -56,6 +76,7 @@ function Player:onHealthDepleted()
     self.sprite.animation = Player.animations.die
     self.sprite.animation:reset()
     self.platforming = nil
+    self.physics = nil
     game.registry:add(self)
 end
 
