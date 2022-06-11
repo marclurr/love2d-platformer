@@ -70,13 +70,26 @@ function PlatformingSystem:process(e, dt)
     vel.y = math.min(vel.y + platforming.gravity * dt, platforming.maxFallSpeed)
     platforming.dropDown = math.max(platforming.dropDown - dt, 0)
 
+    local speed = platforming.runSpeed
+    if (physics.pushableObj) then
+        speed = platforming.pushSpeed
+    end
+
+
     vel.x = 0
     if (input.right.pressed) then 
-        vel.x = platforming.runSpeed
+        vel.x = speed
         platforming.direction = "r"
     elseif (input.left.pressed) then
-        vel.x = -platforming.runSpeed 
+        vel.x = -speed 
         platforming.direction = "l"
+    end
+
+    if (physics.pushableObj) then
+        local obj = physics.pushableObj
+        if (obj.velocity) then
+            obj.velocity.x = vel.x * 0.8
+        end
     end
 
     platforming.jumpButtonLatch:update(input.jump:justPressed(), dt)

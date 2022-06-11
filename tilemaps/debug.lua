@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 47,
+  nextobjectid = 48,
   properties = {},
   tilesets = {
     {
@@ -406,7 +406,7 @@ return {
           type = "stone",
           shape = "rectangle",
           x = 416,
-          y = 384,
+          y = 208,
           width = 16,
           height = 16,
           rotation = 0,
@@ -454,6 +454,19 @@ return {
           y = 272,
           width = 16,
           height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 47,
+          name = "",
+          type = "trigger",
+          shape = "rectangle",
+          x = 480,
+          y = 272,
+          width = 48,
+          height = 32,
           rotation = 0,
           visible = true,
           properties = {}

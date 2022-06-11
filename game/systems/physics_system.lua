@@ -1,6 +1,8 @@
 local Object = require("lib.classic")
 local PhysicsSystem = tiny.processingSystem(Object:extend())
 
+PhysicsSystem.gravity = 660
+
 function PhysicsSystem:new()
     self.filter = tiny.requireAll("physics", "position", "velocity", "hitbox")
 end
@@ -11,13 +13,17 @@ function PhysicsSystem:process(e, dt)
     local hitbox = e.hitbox
     local physics = e.physics
     local physicsFilter = physics.filter
+
+    if (physics.affectedByGravity) then
+        vel.y = vel.y + (PhysicsSystem.gravity * dt)
+    end
     
     local collisionIterations = 1
     local iter = 0
     local finalX = pos.x
     local finalY = pos.y
     local grounded = false
-
+    local pushableObj = nil
     
     while collisionIterations > 0  and iter < 3 do
         iter = iter + 1
@@ -34,7 +40,10 @@ function PhysicsSystem:process(e, dt)
                 if (cols[i].normal.y ~= 0) then
                     vel.y = 0
                 end
-                grounded = cols[i].normal.y == -1
+                if (cols[i].normal.y == -1) then
+                    grounded = true
+                end
+                if (e.isPlayer) then  print(tostring(cols[i].normal.y)) end
                 oneOneWay = onOneWay and (grounded and cols[i].other.tile and game.tilemap:getTileDef(cols[i].other.id).properties.one_way) 
             end  
         end
@@ -42,11 +51,14 @@ function PhysicsSystem:process(e, dt)
         physics.onWall = false
         for i=1,len do  
             if (cols[i].type == "slide")  then
+                
                 if (grounded and cols[i].normal.x ~= 0) then
                     local o = cols[i].other
                     
                     local yoff =(pos.y + hitbox.h) - o.position.y
+                    print("here " .. tostring(yoff))
                     if (yoff  <= 3 and yoff > 0) then     
+                        
                         -- handle stepping up onto low offset objects
                         pos.y = pos.y - yoff
                         game.world:move(e, pos.x, pos.y, physicsFilter)
@@ -55,10 +67,9 @@ function PhysicsSystem:process(e, dt)
                         
                     else
                         physics.onWall = true
-                    
-                    --     if (o.pushable and o.grounded) then
-                    --         potentialPush = o
-                    --     end
+                        if (o.physics and o.physics.isPushable and o.physics.onGround)  then
+                            pushableObj = o
+                        end
                     end
                 end
             end
@@ -81,10 +92,18 @@ function PhysicsSystem:process(e, dt)
             end
         end      
     end
+
+  
     game.world:move(e, finalX, finalY, physicsFilter)
     pos.x = finalX
     pos.y = finalY
     physics.onGround = grounded
+    physics.pushableObj = pushableObj
+    
+    
+    if (physics.isPushable) then
+        vel.x = 0
+    end
 end
 
 return PhysicsSystem

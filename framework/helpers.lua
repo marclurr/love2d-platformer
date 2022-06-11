@@ -84,3 +84,41 @@ function toggleFullscreen()
     love.window.setFullscreen(not love.window.getFullscreen(), "desktop")
     updateDrawScaling()
 end
+
+Predicates = {
+    any = function(obj)
+        return true
+    end,
+
+    isPlayer = function(obj)
+        return obj.isPlayer
+    end
+}
+
+Damage = {
+    kill = function(obj)
+        return obj.health.current
+    end,
+
+    constant = function(value)
+        return function(obj)
+            return value
+        end
+    end
+}
+
+function compose(...)
+    local predicates = {...}
+    return function(obj)
+        local result = true
+        for i,p in ipairs(predicates) do
+            local p = predicates[i]
+            result = result and p(obj)
+        end
+        return result
+    end
+end
+
+function destroyEntity(e)
+    game.registry:remove(e)
+end

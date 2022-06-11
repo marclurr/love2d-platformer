@@ -20,12 +20,14 @@ Components.hitbox = function(e, w, h, isSolid)
     e.isSolid = isSolid or true
 end
 
-Components.physics = function(e, filter)
+Components.physics = function(e, filter, affectedByGravity, pushable)
     e.physics = {
         onGround = false,
         onWall = false,
         onOneWay = false, 
-        filter = filter 
+        filter = filter,
+        affectedByGravity = affectedByGravity or false,
+        isPushable = pushable or false
     }
 end
 
@@ -48,15 +50,17 @@ Components.health = function(e, maxHealth, currentHealth)
     e.health = {
         owner = e,
         max = maxHealth,
-        current = currentHealth or maxHealth
+        current = currentHealth or maxHealth,
+        invincibility = 0
     }
 end
 
 Components.trigger = function(e, predicate)
+    predicate = predicate or Predicates.any
     e.trigger = {
         overlappingObjs = {},
         filter = function(item, other)
-            if (predicate(other)) then 
+            if (other.health and predicate(other)) then 
                 return "cross"
             end
             return nil
@@ -64,8 +68,18 @@ Components.trigger = function(e, predicate)
     }
 end
 
-Components.instaKill = function(e)
-    e.instaKill = true
+Components.causesDamage = function(e, damageFn, predicate, onHit)
+    predicate = predicate or Predicates.any
+    e.causesDamage = {
+        onHit = onHit,
+        damageFn = damageFn,
+        filter = function(item, other)
+            if (predicate(other)) then 
+                return "cross"
+            end
+            return nil
+        end
+    }
 end
 
 return Components

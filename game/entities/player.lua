@@ -80,4 +80,8 @@ function Player:onHealthDepleted()
     game.registry:add(self)
 end
 
+function Player:onDamageTaken(dealer, amount)
+    print("Damaged by " .. tostring(dealer.name) .. " by " .. tostring(amount) )
+end
+
 return Player

@@ -12,7 +12,7 @@ function PlatformingAnimationSystem:process(e, dt)
     local an = e.sprite
     local physics = e.physics
 
-    if (platforming.grounded) then
+    if (physics.onGround) then
         if (physics.onWall) then
             an.animation = pan.push
         else 

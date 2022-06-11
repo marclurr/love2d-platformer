@@ -12,6 +12,7 @@ local Camera = require("framework.camera")
 local BackgroundLayer = require("framework.background")
 local Button = require("framework.button")
 local Player = require("game.entities.player")
+local KillZone = require("game.entities.kill_zone")
 
 local drawFilter = tiny.requireAll('isDrawSystem')
 local updateFilter = tiny.rejectAny('isDrawSystem')
@@ -34,7 +35,8 @@ tilePrefabs.one_way_block = {
 local entityFactories = {
     trigger = require("game.entities_old.trigger"),
     trap_spikes = require("game.entities.trap_spikes"),
-    stone = require("game.entities_old.stone"),
+    stone = require("game.entities.stone"),
+
     button = require("game.entities_old.button"),
     strange_door = require("game.entities_old.strange_door"),
     push_ability_pickup = require("game.entities_old.base_pickup"),
@@ -65,12 +67,23 @@ end
 
 
 function Game:loadLevel(level)
+    local a = function(obj)
+        return true
+    end
+    local b = function(obj)
+        return false
+    end
+
+    print(tostring(compose(a,a)("alsdf")))
+    print(tostring(compose(a,b)("alsdf")))
+
     self.world = bump.newWorld()
     self.registry = tiny.world(
         require("game.systems.player_death_system")(),
         require("game.systems.bump_system")(),
         require("game.systems.platforming_system")(),
         require("game.systems.physics_system")(),
+        require("game.systems.damage_system")(),
         require("game.systems.platforming_animation")(),
         require("game.systems.trigger_system")(),
         require("game.systems.health_system")(),
@@ -115,6 +128,10 @@ function Game:loadLevel(level)
     self.camera.min_y = 0
     self.camera.max_x = (self.tilemap.width-1) * self.tilemap.tilewidth
     self.camera.max_y = (self.tilemap.height-1) * self.tilemap.tileheight
+
+    -- setup kill zone below the map
+    self.registry:add(KillZone(-1000, self.camera.max_y + 16, self.camera.max_x + 2000, 16))
+
 
     self.player = Player(self.playerSpawnX, self.playerSpawnY)
 

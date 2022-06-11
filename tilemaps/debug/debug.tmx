@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-down" width="66" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="47">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-down" width="66" height="28" tilewidth="16" tileheight="16" infinite="0" nextlayerid="6" nextobjectid="48">
  <editorsettings>
   <export target="../debug.lua" format="lua"/>
  </editorsettings>
@@ -110,7 +110,7 @@
    </properties>
    <polyline points="0,0 16,0"/>
   </object>
-  <object id="41" type="stone" x="416" y="384" width="16" height="16"/>
+  <object id="41" type="stone" x="416" y="208" width="16" height="16"/>
   <object id="43" type="button" x="464" y="400">
    <properties>
     <property name="ref" type="object" value="0"/>
@@ -119,5 +119,6 @@
   </object>
   <object id="44" type="push_ability_pickup" x="384" y="224" width="16" height="16"/>
   <object id="46" type="attack_ability_pickup" x="384" y="272" width="16" height="16"/>
+  <object id="47" type="trigger" x="480" y="272" width="48" height="32"/>
  </objectgroup>
 </map>

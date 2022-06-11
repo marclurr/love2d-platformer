@@ -10,9 +10,7 @@ function TrapSpikes:new(x, y, up)
     Components.position(self, x, y)
     Components.hitbox(self, 16, 5)
     Components.sprite(self, assets.sprites.spikes_small)
-    Components.trigger(self, function(obj) 
-        return obj.isPlayer 
-    end)
+    Components.causesDamage(self, Damage.kill, Predicates.isPlayer)
    
     if (up) then 
         self.position.y = y - self.hitbox.h
