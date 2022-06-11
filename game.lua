@@ -33,14 +33,14 @@ tilePrefabs.one_way_block = {
 }
 
 local entityFactories = {
-    trigger = require("game.entities_old.trigger"),
+    --  trigger = require("game.entities_old.trigger"),
     trap_spikes = require("game.entities.trap_spikes"),
     stone = require("game.entities.stone"),
+    button = require("game.entities.switch"),
 
-    button = require("game.entities_old.button"),
-    strange_door = require("game.entities_old.strange_door"),
-    push_ability_pickup = require("game.entities_old.base_pickup"),
-    attack_ability_pickup = require("game.entities_old.base_pickup")
+    --  strange_door = require("game.entities_old.strange_door"),
+    --  push_ability_pickup = require("game.entities_old.base_pickup"),
+    --  attack_ability_pickup = require("game.entities_old.base_pickup")
 }
 
 local Game = BaseState:extend()
@@ -194,8 +194,12 @@ function Game:draw()
                     love.graphics.setColor(0, 1, 0, 1)
                 elseif (t.tile and self.tilemap:getTileDef(t.id).properties.one_way) then
                     love.graphics.setColor(1, 1, 0, 1)
-                elseif (t.debugLabel and t.debugLabel == "danger") then
+                elseif (t.collisionLayer == COLLISION_SOLID or t.tile) then
+                    love.graphics.setColor(1, 1, 1, 1)
+                elseif (t.causesDamage) then 
                     love.graphics.setColor(1, 0, 0, 1)
+                else
+                    love.graphics.setColor(0, 0, 1, 1)
                 end
 
                 if (t.tile) then

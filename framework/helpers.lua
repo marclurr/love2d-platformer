@@ -92,6 +92,10 @@ Predicates = {
 
     isPlayer = function(obj)
         return obj.isPlayer
+    end,
+
+    isPhysicsObject = function(obj)
+        return obj.physics ~= nil
     end
 }
 
@@ -121,4 +125,13 @@ end
 
 function destroyEntity(e)
     game.registry:remove(e)
+end
+
+function invisibleCollider(x, y, w, h)
+    local physicalObject = {}
+    physicalObject.name = "InvisibleCollider"
+    physicalObject.collisionLayer = COLLISION_SOLID
+    Components.hitbox(physicalObject, w, h)
+    Components.position(physicalObject, x, y)
+    return physicalObject
 end

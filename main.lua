@@ -170,6 +170,7 @@ function love.draw()
         if (game.player) then
             love.graphics.print("Player pos: " .. tostring(game.player.x) .. ", " .. tostring(game.player.y), 10, 46)
         end
+        love.graphics.print(tostring(game.registry:getEntityCount()) .. " entities",10, 58)
     end
 end
 

@@ -60,7 +60,7 @@ Components.trigger = function(e, predicate)
     e.trigger = {
         overlappingObjs = {},
         filter = function(item, other)
-            if (other.health and predicate(other)) then 
+            if (predicate(other)) then 
                 return "cross"
             end
             return nil
@@ -74,7 +74,7 @@ Components.causesDamage = function(e, damageFn, predicate, onHit)
         onHit = onHit,
         damageFn = damageFn,
         filter = function(item, other)
-            if (predicate(other)) then 
+            if (other.health and predicate(other)) then 
                 return "cross"
             end
             return nil

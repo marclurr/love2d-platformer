@@ -43,7 +43,6 @@ function PhysicsSystem:process(e, dt)
                 if (cols[i].normal.y == -1) then
                     grounded = true
                 end
-                if (e.isPlayer) then  print(tostring(cols[i].normal.y)) end
                 oneOneWay = onOneWay and (grounded and cols[i].other.tile and game.tilemap:getTileDef(cols[i].other.id).properties.one_way) 
             end  
         end
@@ -56,7 +55,6 @@ function PhysicsSystem:process(e, dt)
                     local o = cols[i].other
                     
                     local yoff =(pos.y + hitbox.h) - o.position.y
-                    print("here " .. tostring(yoff))
                     if (yoff  <= 3 and yoff > 0) then     
                         
                         -- handle stepping up onto low offset objects

@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 48,
+  nextobjectid = 50,
   properties = {},
   tilesets = {
     {
@@ -467,6 +467,32 @@ return {
           y = 272,
           width = 48,
           height = 32,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 48,
+          name = "",
+          type = "stone",
+          shape = "rectangle",
+          x = 752,
+          y = 240,
+          width = 16,
+          height = 16,
+          rotation = 0,
+          visible = true,
+          properties = {}
+        },
+        {
+          id = 49,
+          name = "",
+          type = "stone",
+          shape = "rectangle",
+          x = 432,
+          y = 224,
+          width = 16,
+          height = 16,
           rotation = 0,
           visible = true,
           properties = {}
