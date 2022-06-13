@@ -169,13 +169,12 @@ function love.draw()
     
     if (programSwitches.debug) then 
         love.graphics.print(tostring(love.timer.getFPS()) .. "FPS" .. " " .. tostring(love.timer.getDelta()*1000) .. "ms", 10, 10)
-        love.graphics.print(tostring(#game.manager.entities) .. " entities", 10, 22)
-        love.graphics.print(tostring(game.manager.world:countItems()) .. " colliders", 10, 34)
+        love.graphics.print(tostring(game.registry:getEntityCount()) .. " entities", 10, 22)
+        love.graphics.print(tostring(game.world:countItems()) .. " colliders", 10, 34)
         if (game.player) then
-            love.graphics.print("Player pos: " .. tostring(game.player.x) .. ", " .. tostring(game.player.y), 10, 46)
+            love.graphics.print("Player pos: " .. tostring(game.player.position.x) .. ", " .. tostring(game.player.position.y), 10, 46)
         end
-        love.graphics.print(tostring(game.registry:getEntityCount()) .. " entities",10, 58)
-        love.graphics.print(tostring(game.simulationSteps),10, 70)
+        love.graphics.print(tostring(game.simulationSteps),10, 58)
     end
 end
 
