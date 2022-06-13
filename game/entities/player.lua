@@ -47,7 +47,7 @@ function Player:new(initialX, initialY)
     Components.velocity(self)
     Components.hitbox(self, 8, 12)
     Components.physics(self, physicsFilter)
-    Components.animatedSprite(self, assets.sprites.hero, Player.animations.idle, 4, 4)
+    Components.animatedSprite(self, assets.sprites.hero, Player.animations.fall, 4, 4)
     Components.health(self, 3)
     
     local minJumpHeight = 0.65 * CELL_SIZE
@@ -68,11 +68,11 @@ function Player:new(initialX, initialY)
     }
 
     self.platforming_animation = {
-        idle = anim8.newAnimation(g("1-4", 6), 0.2),
-        run = anim8.newAnimation(g("1-6", 2), 0.1),
-        push = anim8.newAnimation(g("1-6", 3), 0.1),
-        jump = anim8.newAnimation(g("1-3", 8), 0.2),
-        fall = anim8.newAnimation(g("1-3", 7), 0.2)
+        idle = Player.animations.idle,
+        run = Player.animations.run,
+        push = Player.animations.push,
+        jump = Player.animations.jump,
+        fall = Player.animations.fall,
     }
     self.hit = 0
 end

@@ -155,13 +155,13 @@ end
 function Game:update(dt)
     self.dtAcc = self.dtAcc + dt
 
-    -- if more than 10 frames accumulated reset to single frame
+    -- if more than 4 frames accumulated reset to single frame
     -- this will cause issues when  performance is very poor but it essentially pauses the simulation
     -- if the window title bar is clicked or the window is moved
-    if (self.dtAcc >= self.timestep * 4) then 
-        print("reset triggered")
-        self.dtAcc = self.timestep        
-    end
+    -- if (self.dtAcc >= self.timestep * 4) then 
+    --     print("reset triggered")
+    --     self.dtAcc = self.timestep        
+    -- end
 
     local steps = 0
     while (self.dtAcc >= self.timestep) do
@@ -181,16 +181,11 @@ end
 
 function Game:draw()
     local dt = love.timer.getDelta()
-    love.graphics.setColor(203/255, 145/255, 128/255, 1)
+
     love.graphics.clear(203/255, 145/255, 128/255, 1)
-    love.graphics.setColor(1, 1, 1, 1)
+
     local cx, cy = self.camera:topLeft()
     
-    for i=1,#self.currentLevel.backgrounds do
-        -- self.currentLevel.backgrounds[i]:draw(cx)
-    end
-     
-
     self.camera:attach()
 
     love.graphics.setColor(1, 1, 1, 1)   
@@ -224,8 +219,7 @@ function Game:draw()
             end
         end
     end
-
-
+  
     self.camera:detach()
 end
 
