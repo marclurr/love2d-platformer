@@ -96,10 +96,12 @@ function love.load(args)
     local flags = {}
     flags.vsync = love.window.getVSync()
     love.window.setMode(DRAW_WIDTH * 4, DRAW_HEIGHT * 4, flags)
-    updateDrawScaling()
+    
     
 
     drawbuf = love.graphics.newCanvas(DRAW_WIDTH+16, DRAW_HEIGHT+16)
+    drawquad = love.graphics.newQuad(0, 0, DRAW_WIDTH, DRAW_HEIGHT, DRAW_WIDTH+16, DRAW_HEIGHT+16)
+    updateDrawScaling()
 
     Gamestate.registerEvents()
     game = GameState()
@@ -152,20 +154,25 @@ function love.draw()
     local cx, cy = game.camera:topLeft()
     Gamestate.draw()
 
-    -- render and scale to current viewport
-    love.graphics.setCanvas()
+    -- render and scale to current viewport, including hack to improve camera smoothness
+    love.graphics.setCanvas(viewportbuf)
+    love.graphics.clear()
     love.graphics.setColor(1, 1, 1, 1)
    
     local xOff = 0
     local yOff = 0
 
     if (Gamestate.current() == game) then
-        xOff = -(game.camera.pos.x - math.floor(game.camera.pos.x))
-        yOff = -(game.camera.pos.y - math.floor(game.camera.pos.y))
+        xOff = -(game.camera.pos.x - math.floor(game.camera.pos.x)) * DRAW_SCALE
+        yOff = -(game.camera.pos.y - math.floor(game.camera.pos.y)) * DRAW_SCALE
     end
 
+    
+    love.graphics.draw(drawbuf, round(xOff), round(yOff) , 0, DRAW_SCALE, DRAW_SCALE)
 
-    love.graphics.draw(drawbuf, xOff, viewportY + yOff, 0, DRAW_SCALE, DRAW_SCALE)
+    -- render viewport to window, offset into the centre of the window if aspect ratio does not match that of the draw canvas
+    love.graphics.setCanvas()
+    love.graphics.draw(viewportbuf, 0, viewportY)
     
     if (programSwitches.debug) then 
         love.graphics.print(tostring(love.timer.getFPS()) .. "FPS" .. " " .. tostring(love.timer.getDelta()*1000) .. "ms", 10, 10)
@@ -194,12 +201,3 @@ function love.focus()
         Gamestate.push(pause)
     end
 end
-
-
--- function love.mousefocus()
-    
---     if (not love.window.hasMouseFocus() and Gamestate.current() == game) then
-        
---         -- Gamestate.push(pause)
---     end
--- end

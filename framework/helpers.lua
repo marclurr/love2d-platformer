@@ -74,10 +74,16 @@ function updateDrawScaling()
     DRAW_SCALE = love.graphics.getWidth() / DRAW_WIDTH
     if (DRAW_SCALE - math.floor(DRAW_SCALE) ~= 0) then
         local height = DRAW_HEIGHT * DRAW_SCALE
+        print(tostring(height) .. " " .. tostring(love.graphics.getHeight()))
         viewportY = (love.graphics.getHeight() - height) / 2
     else
         viewportY = 0
     end
+
+    if (viewportbuf) then
+        viewportbuf:release()
+    end
+    viewportbuf = love.graphics.newCanvas(DRAW_SCALE * DRAW_WIDTH, DRAW_SCALE * DRAW_HEIGHT)
 end
 
 function toggleFullscreen()

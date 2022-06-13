@@ -181,13 +181,13 @@ end
 
 function Game:draw()
     local dt = love.timer.getDelta()
-
-    love.graphics.clear()
-
+    love.graphics.setColor(203/255, 145/255, 128/255, 1)
+    love.graphics.clear(203/255, 145/255, 128/255, 1)
+    love.graphics.setColor(1, 1, 1, 1)
     local cx, cy = self.camera:topLeft()
     
     for i=1,#self.currentLevel.backgrounds do
-        self.currentLevel.backgrounds[i]:draw(cx)
+        -- self.currentLevel.backgrounds[i]:draw(cx)
     end
      
 
