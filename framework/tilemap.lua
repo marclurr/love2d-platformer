@@ -85,7 +85,6 @@ function TileMap:load(tiledMap, image)
             table.insert(self.layers, layer)
         end
     end
-
 end
 
 function TileMap:getTileDef(id)
@@ -94,6 +93,12 @@ end
 
 function TileMap:fromWorld(x, y)
     return math.floor(x / self.tilewidth), math.floor(y /self.tileheight)
+end
+
+function TileMap:getTileFromWorld(x, y)
+    local tx, ty = self:fromWorld(x, y)
+    local i = (ty * self.width) + tx
+    return self.layers[1].data[i +1]
 end
 
 function TileMap:toWorld(x, y)

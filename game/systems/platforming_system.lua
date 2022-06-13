@@ -53,6 +53,9 @@ function PlatformingSystem:process(e, dt)
     local physics = e.physics
     local platforming = e.platforming
 
+    platforming.disabled = math.max(0, platforming.disabled - dt)
+
+   
     if (not platforming.jumpButtonLatch) then 
         platforming.jumpButtonLatch = Latch(4 * (1/60))
     end
@@ -71,21 +74,49 @@ function PlatformingSystem:process(e, dt)
     platforming.dropDown = math.max(platforming.dropDown - dt, 0)
 
     local speed = platforming.runSpeed
-    if (physics.pushableObj) then
+    if (platforming.disabled == 0 and physics.pushableObj) then
         speed = platforming.pushSpeed
     end
 
 
-    vel.x = 0
-    if (input.right.pressed) then 
-        vel.x = speed
-        platforming.direction = "r"
-    elseif (input.left.pressed) then
-        vel.x = -speed 
-        platforming.direction = "l"
+    
+    local hInput = 0
+    if (platforming.disabled == 0 ) then
+        if (input.right.pressed) then 
+            hInput = 1
+            platforming.direction = "r"
+        elseif (input.left.pressed) then
+            hInput = -1
+            platforming.direction = "l"
+        end
     end
 
-    if (physics.pushableObj) then
+    if (hInput ~= 0) then 
+        local accel = 16
+        if (not physics.onGround) then 
+            accel = 5
+        end
+        vel.x = lerp(vel.x, speed * hInput, accel * dt)
+    else
+        local friction = 10
+        if (not physics.onGround) then 
+            friction = 4
+        end
+        vel.x = lerp(vel.x, 0, friction * dt)
+        if (math.abs(vel.x) < 8 ) then
+            vel.x = 0
+        end 
+
+        
+        
+    end
+
+    -- if (physics.onWall) then
+    --     print("here")
+    --     vel.x = 0
+    -- end
+
+    if (platforming.disabled == 0 and physics.pushableObj) then
         local obj = physics.pushableObj
         if (obj.velocity) then
             obj.velocity.x = vel.x * 0.8
@@ -93,7 +124,7 @@ function PlatformingSystem:process(e, dt)
     end
 
     platforming.jumpButtonLatch:update(input.jump:justPressed(), dt)
-    if (platforming.jumpButtonLatch.value) then
+    if (platforming.disabled == 0 and platforming.jumpButtonLatch.value) then
         if (vel.y >= 0 and platforming.groundedLatch.value) then
             if (input.down.pressed and platforming.onOneWay) then 
                 platforming.dropDown = 0.05
@@ -104,11 +135,12 @@ function PlatformingSystem:process(e, dt)
         end
     end
 
-    if (input.jump:justReleased()) then
+    if (platforming.disabled == 0 and input.jump:justReleased()) then
         if (platforming.grounded == false and vel.y < platforming.minJumpVelocity and platforming.jumpPressTime > 0) then
             vel.y = platforming.minJumpVelocity
         end
     end
+
 end
     
 return PlatformingSystem

@@ -93,7 +93,9 @@ local TitleState = require("title_menu")
 local GameOverState = require("game_over")
 
 function love.load(args)
-    love.window.setMode(DRAW_WIDTH * 4, DRAW_HEIGHT * 4)
+    local flags = {}
+    flags.vsync = love.window.getVSync()
+    love.window.setMode(DRAW_WIDTH * 4, DRAW_HEIGHT * 4, flags)
     updateDrawScaling()
     
 
@@ -122,6 +124,8 @@ function love.load(args)
     else
         Gamestate.switch(title)
     end
+    
+    winX, winY, _ = love.window.getPosition()
     
 end
 
@@ -171,6 +175,7 @@ function love.draw()
             love.graphics.print("Player pos: " .. tostring(game.player.x) .. ", " .. tostring(game.player.y), 10, 46)
         end
         love.graphics.print(tostring(game.registry:getEntityCount()) .. " entities",10, 58)
+        love.graphics.print(tostring(game.simulationSteps),10, 70)
     end
 end
 
@@ -185,4 +190,17 @@ function love.resizes(w, h)
     end
 end
 
+function love.focus()
+    if (not love.window.hasFocus() and Gamestate.current() == game) then
+        Gamestate.push(pause)
+    end
+end
 
+
+-- function love.mousefocus()
+    
+--     if (not love.window.hasMouseFocus() and Gamestate.current() == game) then
+        
+--         -- Gamestate.push(pause)
+--     end
+-- end

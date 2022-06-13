@@ -50,24 +50,31 @@ function PhysicsSystem:process(e, dt)
         physics.onWall = false
         for i=1,len do  
             if (cols[i].type == "slide")  then
+                if (cols[i].normal.x ~= 0) then
                 
-                if (grounded and cols[i].normal.x ~= 0) then
-                    local o = cols[i].other
-                    
-                    local yoff =(pos.y + hitbox.h) - o.position.y
-                    if (yoff  <= 3 and yoff > 0) then     
+                    if (grounded) then
+                        local o = cols[i].other
                         
-                        -- handle stepping up onto low offset objects
-                        pos.y = pos.y - yoff
-                        game.world:move(e, pos.x, pos.y, physicsFilter)
-                    
-                        collisionIterations = collisionIterations + 1
+                        local yoff =(pos.y + hitbox.h) - o.position.y
+                        if (yoff  <= 3 and yoff > 0) then     
+                            
+                            -- handle stepping up onto low offset objects
+                            pos.y = pos.y - yoff
+                            game.world:move(e, pos.x, pos.y, physicsFilter)
                         
+                            collisionIterations = collisionIterations + 1
+                            
+                        else
+                            physics.onWall = true
+                            if (o.physics and o.physics.isPushable and o.physics.onGround)  then
+                                pushableObj = o
+                            else 
+                                vel.x = 0
+                            end
+                        end
                     else
                         physics.onWall = true
-                        if (o.physics and o.physics.isPushable and o.physics.onGround)  then
-                            pushableObj = o
-                        end
+                        vel.x = 0
                     end
                 end
             end

@@ -1,3 +1,11 @@
+local flashShader = love.graphics.newShader([[
+    vec4 effect(vec4 colour, Image tex, vec2 uv, vec2 xy) {
+        return  Texel(tex, uv).a * colour;
+    }
+]])
+
+
+
 local Object = require("lib.classic")
 local anim8 = require("lib.anim8")
 
@@ -9,6 +17,8 @@ Player.animations = {
     push = anim8.newAnimation(g("1-6", 3), 0.1),
     jump = anim8.newAnimation(g("1-3", 8), 0.2),
     fall = anim8.newAnimation(g("1-3", 7), 0.2), 
+    hit = anim8.newAnimation(g("1-3", 9), 0.1), 
+    attack = anim8.newAnimation(g("1-4", 4), 0.05, "pauseAtEnd"), 
     die = anim8.newAnimation(g("1-9", 1), 0.065, "pauseAtEnd")
 }
 
@@ -45,7 +55,7 @@ function Player:new(initialX, initialY)
     local jumpDuration = 0.4
     local gravity = (2 * maxJumpHeight) / (jumpDuration * jumpDuration)
     self.platforming = {
-        runSpeed = 128,
+        runSpeed = 132,
         pushSpeed = 64,
         maxJumpVelocity = -math.sqrt(2 * gravity * maxJumpHeight),
         minJumpVelocity = -math.sqrt(2 * gravity * minJumpHeight),
@@ -53,7 +63,8 @@ function Player:new(initialX, initialY)
         gravity = gravity,
         maxFallSpeed = 28 * CELL_SIZE, 
         dropDown = 0,
-        jumpPressTime = 0
+        jumpPressTime = 0, 
+        disabled = 0
     }
 
     self.platforming_animation = {
@@ -63,8 +74,22 @@ function Player:new(initialX, initialY)
         jump = anim8.newAnimation(g("1-3", 8), 0.2),
         fall = anim8.newAnimation(g("1-3", 7), 0.2)
     }
+    self.hit = 0
 end
 
+function Player:draw()
+    self.hit = math.max(0, self.hit - love.timer.getDelta())
+    if (self.hit > 0) then
+        self.sprite.shader = flashShader
+    else
+        self.sprite.shader = nil
+        if (self.health.invincible > 0) then 
+             self.sprite.mod[4] = math.sin(self.health.invincible *20 ) > 0 and 1 or 0
+        else 
+            self.sprite.mod[4] = 1
+        end
+    end   
+end
 
 function Player:onAnimationComplete(animation)
     if (animation == Player.animations.die) then
@@ -81,7 +106,20 @@ function Player:onHealthDepleted()
 end
 
 function Player:onDamageTaken(dealer, amount)
-    print("Damaged by " .. tostring(dealer.name) .. " by " .. tostring(amount) )
+    if (self.health.current > 0) then
+        local dir = 0
+        if (dealer.position.x < self.position.x) then 
+            dir = 1
+        elseif (dealer.position.x >= self.position.x) then
+            dir = -1
+        end
+        self.velocity.x = 80 * dir
+        self.velocity.y = -128
+        self.platforming.disabled = 0.2
+        self.health.invincible = 2
+        self.hit = 0.15
+    end
+    
 end
 
 return Player

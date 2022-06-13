@@ -14,7 +14,7 @@ function DamageSystem:process(e, dt)
 
     for i=1,len do
         local obj = cols[i].other
-        if (obj.health) then
+        if (obj.health and obj.health.invincible == 0 ) then
             local damageAmount = damageFn(obj)
             if (damageAmount > 0) then
                 obj.health.current = obj.health.current - damageAmount

@@ -15,6 +15,12 @@ local Player = require("game.entities.player")
 local KillZone = require("game.entities.kill_zone")
 
 local drawFilter = tiny.requireAll('isDrawSystem')
+drawFilter = function(world, system)
+    if (Gamestate.current() ~= game) then
+        return system.isDrawSystem and system.drawWhenPaused
+    end
+    return system.isDrawSystem 
+end
 local updateFilter = tiny.rejectAny('isDrawSystem')
 
 COLLISION_SOLID = 1
@@ -37,6 +43,7 @@ local entityFactories = {
     trap_spikes = require("game.entities.trap_spikes"),
     stone = require("game.entities.stone"),
     button = require("game.entities.switch"),
+    mushroom = require("game.entities.mushroom"),
 
     --  strange_door = require("game.entities_old.strange_door"),
     --  push_ability_pickup = require("game.entities_old.base_pickup"),
@@ -47,6 +54,9 @@ local Game = BaseState:extend()
 
 function Game:new()
     self.super.new(self)
+    self.timestep = 1 / 60
+    self.dtAcc = 0
+    self.simulationSteps = 0
     self.camera = Camera(DRAW_WIDTH, DRAW_HEIGHT)
 
     self.super.registerPressEventHandler(self,"ui_cancel", self.pause)
@@ -74,30 +84,29 @@ function Game:loadLevel(level)
         return false
     end
 
-    print(tostring(compose(a,a)("alsdf")))
-    print(tostring(compose(a,b)("alsdf")))
-
     self.world = bump.newWorld()
     self.registry = tiny.world(
         require("game.systems.player_death_system")(),
         require("game.systems.bump_system")(),
         require("game.systems.platforming_system")(),
-        require("game.systems.physics_system")(),
+        require("game.systems.controller_system")(),
         require("game.systems.damage_system")(),
+        require("game.systems.physics_system")(),
+        
         require("game.systems.platforming_animation")(),
         require("game.systems.trigger_system")(),
         require("game.systems.health_system")(),
         require("game.systems.camera_system")(),
 
-        
+        require("game.systems.custom_draw_system")(),
         require("game.systems.animation_system")(),
         require("game.systems.sprite_system")()
     )
-    self.manager = EntityManager(self.world)
+    
     self.tilemap = TileMap(tilePrefabs)
     self.tilemap.onTileAdded = registerTileMapCollisions(self.world) 
 
-    local manager = self.manager
+    
     self.tilemap.onObject = function(layer, obj) 
         if (obj.type == "player_spawn") then
             self.playerSpawnX = obj.x
@@ -134,35 +143,40 @@ function Game:loadLevel(level)
 
 
     self.player = Player(self.playerSpawnX, self.playerSpawnY)
-
     self.registry:add(self.player)
-    
     self.camera:setPosition(self.player.position.x, self.player.position.y)
-
 end
 
 function Game:enter(old, level)
-    -- self.player = Player()
     self:loadLevel(level)
 end
 
 
 function Game:update(dt)
-    self.registry:update(dt, updateFilter)
-    -- self.manager:update(dt)
+    self.dtAcc = self.dtAcc + dt
 
-    if (self.player) then
-  
-        -- if (not self.player:isDead() and self.player.y > self.tilemap.height * self.tilemap.tileheight) then
-        --     self.player:kill()
-        -- end
+    -- if more than 10 frames accumulated reset to single frame
+    -- this will cause issues when  performance is very poor but it essentially pauses the simulation
+    -- if the window title bar is clicked or the window is moved
+    if (self.dtAcc >= self.timestep * 4) then 
+        print("reset triggered")
+        self.dtAcc = self.timestep        
     end
 
-    if (self.currentLevel.update) then 
-        self.currentLevel:update(dt)
-    end
+    local steps = 0
+    while (self.dtAcc >= self.timestep) do
+        self.registry:update(self.timestep, updateFilter)
+        
+        if (self.currentLevel.update) then 
+            self.currentLevel:update(self.timestep)
+        end
 
-    self.super.updateInput(self)
+        self.super.updateInput(self)
+
+        self.dtAcc = self.dtAcc - self.timestep
+        steps = steps + 1
+    end
+    self.simulationSteps = steps
 end
 
 function Game:draw()

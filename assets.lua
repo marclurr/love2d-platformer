@@ -7,6 +7,7 @@ assets.sprites = {
     stone = love.graphics.newImage("assets/sprites/stone.png"),
     button = love.graphics.newImage("assets/sprites/button_spritesheet.png"),
     strangeDoor = love.graphics.newImage("assets/sprites/strange_door_spritesheet.png"),
+    mushroom = love.graphics.newImage("assets/sprites/mushroom_spritesheet.png"),
 }
 
 assets.backgrounds = {

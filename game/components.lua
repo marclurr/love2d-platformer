@@ -33,6 +33,7 @@ end
 
 Components.sprite = function(e, spritesheet, ox, oy)
     e.sprite = {
+        mod = {1, 1, 1, 1},
         spritesheet = spritesheet,
         ox = ox, oy = oy
     }
@@ -40,6 +41,7 @@ end
 
 Components.animatedSprite = function(e, spritesheet, animation, ox, oy)
     e.sprite = {
+        mod = {1, 1, 1, 1},
         spritesheet = spritesheet,
         animation = animation,
         ox = ox, oy = oy
@@ -51,7 +53,7 @@ Components.health = function(e, maxHealth, currentHealth)
         owner = e,
         max = maxHealth,
         current = currentHealth or maxHealth,
-        invincibility = 0
+        invincible = 0
     }
 end
 
@@ -79,6 +81,12 @@ Components.causesDamage = function(e, damageFn, predicate, onHit)
             end
             return nil
         end
+    }
+end
+
+Components.controller = function(e, controllerFn)
+    e.controller = {
+        logic = controllerFn
     }
 end
 

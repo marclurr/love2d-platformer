@@ -135,3 +135,7 @@ function invisibleCollider(x, y, w, h)
     Components.position(physicalObject, x, y)
     return physicalObject
 end
+
+function lerp(a, b, t)
+    return (a + ((b - a) * t))
+end

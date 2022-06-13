@@ -1,5 +1,6 @@
 local Object = require("lib.classic")
 local AnimationSystem = tiny.processingSystem(Object:extend())
+AnimationSystem.isDrawSystem = true
 
 function AnimationSystem:new()
     self.filter = tiny.requireAll("sprite")
