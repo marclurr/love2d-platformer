@@ -25,6 +25,7 @@ local updateFilter = tiny.rejectAny('isDrawSystem')
 
 COLLISION_SOLID = 1
 COLLISION_PICKUP = 2
+COLLISION_ACTORS = 4
 
 
 eventBus = Registry()

@@ -183,7 +183,6 @@ function love.draw()
 
     -- render and scale to current viewport, including hack to improve camera smoothness
     love.graphics.setCanvas(viewportbuf)
-    -- love.graphics.clear()
     love.graphics.setColor(1, 1, 1, 1)
    
     local xOff = 0

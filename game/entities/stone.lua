@@ -5,9 +5,7 @@ local function physicsFilter(l, other)
             return nil
         end
         return "slide"
-    elseif (other.isPlayer) then
-        return "slide"
-    elseif (other.collisionLayer and bit.band(other.collisionLayer, COLLISION_SOLID) ~= 0) then
+    elseif (other.collisionLayer and bit.band(other.collisionLayer, bit.bor(COLLISION_ACTORS, COLLISION_SOLID)) ~= 0) then
         return "slide"
     end
 

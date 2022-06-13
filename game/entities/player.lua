@@ -43,6 +43,7 @@ function Player:new(initialX, initialY)
     self.id = 99999
     self.name = "Player"
     self.isPlayer = true
+    self.collisionLayer = COLLISION_ACTORS
     Components.position(self, initialX, initialY)
     Components.velocity(self)
     Components.hitbox(self, 8, 12)

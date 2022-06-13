@@ -56,6 +56,7 @@ function Mushroom:new(initialX, initialY)
     
     self.animations.walk:gotoFrame(love.math.random(1, 8))
     
+    self.collisionLayer = COLLISION_ACTORS
 
     self.name = "Mushroom"
     Components.position(self, initialX, initialY)
