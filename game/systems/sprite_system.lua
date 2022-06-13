@@ -26,7 +26,7 @@ function SpriteSystem:process(e, dt)
     if (an) then 
         an.flippedH = e.sprite.flippedH or false
         
-        an:draw(spritesheet, round(pos.x), round(pos.y), 0, sx, sy , ox, oy)
+        an:draw(spritesheet, math.floor(pos.x), math.floor(pos.y), 0, sx, sy , ox, oy)
     else
         love.graphics.draw(spritesheet, pos.x, pos.y, 0, sx, sy, ox, oy)
     end

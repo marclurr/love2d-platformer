@@ -148,15 +148,42 @@ local fnt2 = love.graphics.newFont(16, "mono")
 
 function love.draw()
     -- render game
-    love.graphics.setCanvas(drawbuf)
-    love.graphics.clear()
+    -- love.graphics.setCanvas(drawbuf)
+    -- love.graphics.clear()
 
     local cx, cy = game.camera:topLeft()
+
+    love.graphics.setCanvas(viewportbuf)
+    love.graphics.clear()
+
+    if (Gamestate.current() == game) then
+        for i=1, #game.currentLevel.backgrounds do
+            love.graphics.setCanvas(drawbuf)
+            love.graphics.clear()
+
+            local bg = game.currentLevel.backgrounds[i]
+            bg:draw(cx)
+
+            love.graphics.setCanvas(viewportbuf)
+            local xOff = 0
+            local yOff = 0
+
+            local bgOffset = bg:getOffset(cx)
+            local imgOffset = bgOffset * bg.image:getWidth()
+            local rem = imgOffset - math.floor(imgOffset)
+            xOff = -(rem * DRAW_SCALE)
+
+            love.graphics.draw(drawbuf, round(xOff), round(yOff) , 0, DRAW_SCALE, DRAW_SCALE)
+        end
+    end
+
+    love.graphics.setCanvas(drawbuf)
+    love.graphics.clear()
     Gamestate.draw()
 
     -- render and scale to current viewport, including hack to improve camera smoothness
     love.graphics.setCanvas(viewportbuf)
-    love.graphics.clear()
+    -- love.graphics.clear()
     love.graphics.setColor(1, 1, 1, 1)
    
     local xOff = 0
