@@ -58,7 +58,7 @@ function Game:new()
     self.timestep = 1 / 60
     self.dtAcc = 0
     self.simulationSteps = 0
-    self.camera = Camera(DRAW_WIDTH, DRAW_HEIGHT)
+    self.camera = Camera(DRAW_WIDTH+16, DRAW_HEIGHT+16)
 
     self.super.registerPressEventHandler(self,"ui_cancel", self.pause)
 end
@@ -78,12 +78,7 @@ end
 
 
 function Game:loadLevel(level)
-    local a = function(obj)
-        return true
-    end
-    local b = function(obj)
-        return false
-    end
+
 
     self.world = bump.newWorld()
     self.registry = tiny.world(
@@ -136,8 +131,8 @@ function Game:loadLevel(level)
     -- limit camera to tilemap boundaries
     self.camera.min_x = 0
     self.camera.min_y = 0
-    self.camera.max_x = (self.tilemap.width-1) * self.tilemap.tilewidth
-    self.camera.max_y = (self.tilemap.height-1) * self.tilemap.tileheight
+    self.camera.max_x = ((self.tilemap.width-1) * self.tilemap.tilewidth) + 16
+    self.camera.max_y = ((self.tilemap.height-1) * self.tilemap.tileheight) +16
 
     -- setup kill zone below the map
     self.registry:add(KillZone(-1000, self.camera.max_y + 16, self.camera.max_x + 2000, 16))
@@ -156,28 +151,14 @@ end
 function Game:update(dt)
     self.dtAcc = self.dtAcc + dt
 
-    -- if more than 4 frames accumulated reset to single frame
-    -- this will cause issues when  performance is very poor but it essentially pauses the simulation
-    -- if the window title bar is clicked or the window is moved
-    -- if (self.dtAcc >= self.timestep * 4) then 
-    --     print("reset triggered")
-    --     self.dtAcc = self.timestep        
-    -- end
-
-    local steps = 0
-    while (self.dtAcc >= self.timestep) do
-        self.registry:update(self.timestep, updateFilter)
-        
-        if (self.currentLevel.update) then 
-            self.currentLevel:update(self.timestep)
-        end
+    while (self.dtAcc > 0) do
+        local ndt = math.min(self.timestep, self.dtAcc)
+        self.registry:update(ndt, updateFilter)
 
         self.super.updateInput(self)
 
-        self.dtAcc = self.dtAcc - self.timestep
-        steps = steps + 1
+        self.dtAcc = self.dtAcc - ndt
     end
-    self.simulationSteps = steps
 end
 
 function Game:draw()

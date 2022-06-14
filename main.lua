@@ -154,7 +154,7 @@ function love.draw()
     local cx, cy = game.camera:topLeft()
 
     love.graphics.setCanvas(viewportbuf)
-    love.graphics.clear()
+    love.graphics.clear(1, 1, 1, 1)
 
     if (Gamestate.current() == game) then
         for i=1, #game.currentLevel.backgrounds do
@@ -173,12 +173,11 @@ function love.draw()
             local rem = imgOffset - math.floor(imgOffset)
             xOff = -(rem * DRAW_SCALE)
 
-            love.graphics.draw(drawbuf, round(xOff), round(yOff) , 0, DRAW_SCALE, DRAW_SCALE)
+            love.graphics.draw(drawbuf, xOff, yOff , 0, DRAW_SCALE, DRAW_SCALE)
         end
     end
 
     love.graphics.setCanvas(drawbuf)
-    love.graphics.clear()
     Gamestate.draw()
 
     -- render and scale to current viewport, including hack to improve camera smoothness
@@ -189,13 +188,14 @@ function love.draw()
     local yOff = 0
 
     if (Gamestate.current() == game) then
-        xOff = -(game.camera.pos.x - math.floor(game.camera.pos.x)) * DRAW_SCALE
-        yOff = -(game.camera.pos.y - math.floor(game.camera.pos.y)) * DRAW_SCALE
+        xOff = -(cx - math.floor(cx))  * DRAW_SCALE
+        yOff = -(cy - math.floor(cy))  * DRAW_SCALE
     end
 
-    
-    love.graphics.draw(drawbuf, round(xOff), round(yOff) , 0, DRAW_SCALE, DRAW_SCALE)
-
+    love.graphics.push()
+    love.graphics.translate(round(xOff), round(yOff))
+    love.graphics.draw(drawbuf, 0, 0 , 0, DRAW_SCALE , DRAW_SCALE )
+    love.graphics.pop()
     -- render viewport to window, offset into the centre of the window if aspect ratio does not match that of the draw canvas
     love.graphics.setCanvas()
     love.graphics.draw(viewportbuf, 0, viewportY)
@@ -204,9 +204,8 @@ function love.draw()
         love.graphics.print(tostring(love.timer.getFPS()) .. "FPS" .. " " .. tostring(love.timer.getDelta()*1000) .. "ms", 10, 10)
         love.graphics.print(tostring(game.registry:getEntityCount()) .. " entities", 10, 22)
         love.graphics.print(tostring(game.world:countItems()) .. " colliders", 10, 34)
-        if (game.player) then
-            love.graphics.print("Player pos: " .. tostring(game.player.position.x) .. ", " .. tostring(game.player.position.y), 10, 46)
-        end
+        love.graphics.print("offsets: " .. tostring(xOff) .. ", " .. tostring(yOff), 10, 46)
+        
         love.graphics.print(tostring(game.simulationSteps),10, 58)
     end
 end
