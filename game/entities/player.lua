@@ -65,7 +65,8 @@ function Player:new(initialX, initialY)
         maxFallSpeed = 28 * CELL_SIZE, 
         dropDown = 0,
         jumpPressTime = 0, 
-        disabled = 0
+        disabled = 0, 
+        jumping = false
     }
 
     self.platforming_animation = {
@@ -85,7 +86,7 @@ function Player:draw()
     else
         self.sprite.shader = nil
         if (self.health.invincible > 0) then 
-             self.sprite.mod[4] = math.sin(self.health.invincible *20 ) > 0 and 1 or 0
+             self.sprite.mod[4] = math.ceil(math.sin(self.health.invincible * 20)) * 1
         else 
             self.sprite.mod[4] = 1
         end

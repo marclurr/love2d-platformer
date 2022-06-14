@@ -8,21 +8,15 @@ function TrapSpikes:new(x, y, up)
     up = up or false
     self.name = "Spikes"
     Components.position(self, x, y)
-    Components.hitbox(self, 16, 5)
+    Components.hitbox(self, 16, 4)
     Components.sprite(self, assets.sprites.spikes_small)
-    Components.causesDamage(self, Damage.constant(1), Predicates.isPlayer)
+    Components.causesDamage(self, Damage.kill, Predicates.isPlayer)
    
     if (up) then 
         self.position.y = y - self.hitbox.h
         self.sprite.oy = 5
         self.sprite.sy = -1
     end   
-end
-
-function TrapSpikes:onTriggerEntered(obj)
-    if (obj.health) then 
-        obj.health.current = 0
-    end
 end
 
 return function(layer, obj) 

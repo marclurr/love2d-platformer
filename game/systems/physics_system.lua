@@ -24,6 +24,7 @@ function PhysicsSystem:process(e, dt)
     local finalY = pos.y
     local grounded = false
     local pushableObj = nil
+    local onCeilling = false
     
     while collisionIterations > 0  and iter < 3 do
         iter = iter + 1
@@ -37,11 +38,15 @@ function PhysicsSystem:process(e, dt)
         
         for i=1,len do  
             if (cols[i].type == "slide")  then
-                if (cols[i].normal.y ~= 0) then
-                    vel.y = 0
-                end
-                if (cols[i].normal.y == -1) then
+                if (cols[i].normal.y == 1) then
+                    if (physics.onCeilling == false) then
+                        vel.y = -60 -- math.abs(vel.y) * 0.8
+                    end
+                    
+                    onCeilling = true
+                elseif (cols[i].normal.y == -1) then
                     grounded = true
+                    vel.y = 0
                 end
                 oneOneWay = onOneWay and (grounded and cols[i].other.tile and game.tilemap:getTileDef(cols[i].other.id).properties.one_way) 
             end  
@@ -103,6 +108,7 @@ function PhysicsSystem:process(e, dt)
     pos.x = finalX
     pos.y = finalY
     physics.onGround = grounded
+    physics.onCeilling = onCeilling
     physics.pushableObj = pushableObj
     
     

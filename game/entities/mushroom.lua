@@ -11,15 +11,11 @@ function mushroomAI(e, dt)
         local phys = e.physics
 
         if (phys.onGround) then 
-            -- if (phys.onWall) then 
-            --     e.direction = e.direction * -1
-            -- end
-
             local offset = 0
             if (e.direction > 0) then
                 offset = e.hitbox.w
             end
-            local x, y = game.tilemap:fromWorld(pos.x+offset, pos.y +18)
+ 
             local tile = game.tilemap:getTileFromWorld(pos.x+offset, pos.y + 18)
             if (tile.id == 0 or phys.onWall) then 
                 e.direction = e.direction * -1
@@ -45,7 +41,7 @@ local function physicsFilter(item, other)
     if (other.collisionLayer and bit.band(other.collisionLayer, COLLISION_SOLID) ~= 0) then
         return "slide"
     end
-    return "cross"
+    return nil
 end
 
 function Mushroom:new(initialX, initialY)

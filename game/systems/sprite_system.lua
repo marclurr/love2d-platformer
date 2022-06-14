@@ -28,7 +28,7 @@ function SpriteSystem:process(e, dt)
         
         an:draw(spritesheet, round(pos.x), round(pos.y), 0, sx, sy , ox, oy)
     else
-        love.graphics.draw(spritesheet, pos.x, pos.y, 0, sx, sy, ox, oy)
+        love.graphics.draw(spritesheet, round(pos.x), round(pos.y), 0, sx, sy, ox, oy)
     end
 
     love.graphics.setShader()

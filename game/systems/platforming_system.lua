@@ -92,7 +92,7 @@ function PlatformingSystem:process(e, dt)
     end
 
     if (hInput ~= 0) then 
-        local accel = 16
+        local accel = 14
         if (not physics.onGround) then 
             accel = 5
         end
@@ -123,20 +123,25 @@ function PlatformingSystem:process(e, dt)
         end
     end
 
+    if (platforming.jumping and platforming.grounded) then
+        platforming.jumping = false
+    end
+
     platforming.jumpButtonLatch:update(input.jump:justPressed(), dt)
     if (platforming.disabled == 0 and platforming.jumpButtonLatch.value) then
-        if (vel.y >= 0 and platforming.groundedLatch.value) then
+        if (vel.y >= 0 and platforming.groundedLatch.value and not physics.onCeilling) then
             if (input.down.pressed and platforming.onOneWay) then 
                 platforming.dropDown = 0.05
             else
                 vel.y = platforming.maxJumpVelocity
+                platforming.jumping = true
             end
             platforming.jumpPressTime = 0.7 * platforming.jumpDuration
         end
     end
 
-    if (platforming.disabled == 0 and input.jump:justReleased()) then
-        if (platforming.grounded == false and vel.y < platforming.minJumpVelocity and platforming.jumpPressTime > 0) then
+    if (platforming.disabled == 0 and input.jump:justReleased() and platforming.jumping == true) then
+        if (platforming.grounded == false and vel.y < platforming.minJumpVelocity and platforming.jumpPressTime > 0 and not physics.onCeilling) then
             vel.y = platforming.minJumpVelocity
         end
     end
