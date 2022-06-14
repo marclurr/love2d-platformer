@@ -151,26 +151,22 @@ end
 function Game:update(dt)
     self.dtAcc = self.dtAcc + dt
 
+    -- update in discrete steps consuming full delta
     while (self.dtAcc > 0) do
         local ndt = math.min(self.timestep, self.dtAcc)
         self.registry:update(ndt, updateFilter)
-
-        self.super.updateInput(self)
-
         self.dtAcc = self.dtAcc - ndt
     end
+    self.super.updateInput(self)
 end
 
 function Game:draw()
     local dt = love.timer.getDelta()
 
-    love.graphics.clear()--203/255, 145/255, 128/255, 1)
+    love.graphics.clear()
 
     local cx, cy = self.camera:topLeft()
-    -- for i=1, #self.currentLevel.backgrounds do
-    --     local bg = self.currentLevel.backgrounds[i]
-    --     bg:draw(cx)
-    -- end
+
     self.camera:attach()
 
     love.graphics.setColor(1, 1, 1, 1)   
