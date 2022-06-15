@@ -19,23 +19,7 @@ end
 
 function Switch:onTriggerEntered(obj)
     self.overlappingObjsCount = self.overlappingObjsCount + 1
-    if (obj.velocity and obj.platforming) then 
-        local plat = obj.platforming
-        local vel = obj.velocity
-
-        if (vel.y < 0) then
-            -- already jumping
-            return
-        end
-        local height = 7
-        plat.jumpButtonLatch:update(input.jump:justPressed(), love.timer.getDelta())
-        if (plat.jumpButtonLatch.value == true) then
-            height = 16
-        end
-        obj.velocity.y = -math.sqrt(2 * plat.gravity * height * CELL_SIZE)
-        plat.jumping = false
-    end
-    -- self.sprite.animation = Switch.animations.on
+    self.sprite.animation = Switch.animations.on
 end
 
 function Switch:onTriggerExited(obj)

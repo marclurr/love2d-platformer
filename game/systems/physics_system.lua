@@ -40,6 +40,8 @@ function PhysicsSystem:process(e, dt)
             if (cols[i].type == "slide")  then
                 if (cols[i].normal.y == 1) then
                     if (physics.onCeilling == false) then
+                        -- 'stick' to the ceiling for a bit, so the change of direction is less jarring
+                        -- this should probably not be here
                         vel.y = -60 -- math.abs(vel.y) * 0.8
                     end
                     

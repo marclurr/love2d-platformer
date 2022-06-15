@@ -9,7 +9,7 @@ return {
   tilewidth = 16,
   tileheight = 16,
   nextlayerid = 6,
-  nextobjectid = 63,
+  nextobjectid = 69,
   properties = {},
   tilesets = {
     {
@@ -678,6 +678,120 @@ return {
           shape = "polyline",
           x = 512,
           y = 336,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polyline = {
+            { x = 0, y = 0 },
+            { x = 16, y = 0 }
+          },
+          properties = {
+            ["ref"] = { id = 0 }
+          }
+        },
+        {
+          id = 63,
+          name = "",
+          type = "button",
+          shape = "polyline",
+          x = 879,
+          y = 352,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polyline = {
+            { x = 0, y = 0 },
+            { x = 16, y = 0 }
+          },
+          properties = {
+            ["ref"] = { id = 0 }
+          }
+        },
+        {
+          id = 64,
+          name = "",
+          type = "button",
+          shape = "polyline",
+          x = 895,
+          y = 350,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polyline = {
+            { x = 0, y = 0 },
+            { x = 16, y = 0 }
+          },
+          properties = {
+            ["ref"] = { id = 0 }
+          }
+        },
+        {
+          id = 65,
+          name = "",
+          type = "button",
+          shape = "polyline",
+          x = 911,
+          y = 348,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polyline = {
+            { x = 0, y = 0 },
+            { x = 16, y = 0 }
+          },
+          properties = {
+            ["ref"] = { id = 0 }
+          }
+        },
+        {
+          id = 66,
+          name = "",
+          type = "button",
+          shape = "polyline",
+          x = 927,
+          y = 346,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polyline = {
+            { x = 0, y = 0 },
+            { x = 16, y = 0 }
+          },
+          properties = {
+            ["ref"] = { id = 0 }
+          }
+        },
+        {
+          id = 67,
+          name = "",
+          type = "button",
+          shape = "polyline",
+          x = 943,
+          y = 344,
+          width = 0,
+          height = 0,
+          rotation = 0,
+          visible = true,
+          polyline = {
+            { x = 0, y = 0 },
+            { x = 16, y = 0 }
+          },
+          properties = {
+            ["ref"] = { id = 0 }
+          }
+        },
+        {
+          id = 68,
+          name = "",
+          type = "button",
+          shape = "polyline",
+          x = 959,
+          y = 342,
           width = 0,
           height = 0,
           rotation = 0,
