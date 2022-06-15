@@ -81,9 +81,10 @@ function Game:loadLevel(level)
 
     self.world = bump.newWorld()
     self.registry = tiny.world(
+        require("game.systems.lifetime_system")(),
         require("game.systems.player_death_system")(),
         require("game.systems.bump_system")(),
-        require("game.systems.platforming_system")(),
+        -- require("game.systems.platforming_system")(),
         require("game.systems.controller_system")(),
         require("game.systems.damage_system")(),
         require("game.systems.physics_system")(),
@@ -153,6 +154,7 @@ function Game:update(dt)
     -- update in discrete steps consuming full delta
     while (self.dtAcc > 0) do
         local ndt = math.min(self.timestep, self.dtAcc)
+        self.dt = ndt
         self.registry:update(ndt, updateFilter)
         self.dtAcc = self.dtAcc - ndt
     end

@@ -48,6 +48,12 @@ Components.animatedSprite = function(e, spritesheet, animation, ox, oy)
     }
 end
 
+Components.animation = function(e, fn) 
+    e.animation = {
+        nextAnimation = fn
+    }
+end
+
 Components.health = function(e, maxHealth, currentHealth)
     e.health = {
         owner = e,
@@ -70,7 +76,7 @@ Components.trigger = function(e, predicate)
     }
 end
 
-Components.causesDamage = function(e, damageFn, predicate, onHit)
+Components.causesDamage = function(e, damageFn, predicate, onHit, direction)
     predicate = predicate or Predicates.any
     e.causesDamage = {
         onHit = onHit,
@@ -80,7 +86,8 @@ Components.causesDamage = function(e, damageFn, predicate, onHit)
                 return "cross"
             end
             return nil
-        end
+        end, 
+        direction = direction
     }
 end
 
@@ -88,6 +95,10 @@ Components.controller = function(e, controllerFn)
     e.controller = {
         logic = controllerFn
     }
+end
+
+Components.lifetime = function(e, t)
+    e.lifetime = t
 end
 
 return Components

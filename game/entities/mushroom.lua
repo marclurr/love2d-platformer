@@ -5,12 +5,13 @@ local Mushroom = Object:extend()
 local g = anim8.newGrid(16, 16, assets.sprites.mushroom:getWidth(), assets.sprites.mushroom:getHeight())
 
 function mushroomAI(e, dt)
+    e.hit = math.max(0, e.hit - dt)
     if (e.position and e.velocity and e.physics) then
         local pos = e.position
         local vel = e.velocity
         local phys = e.physics
 
-        if (phys.onGround) then 
+        if (e.hit == 0  and phys.onGround) then 
             local offset = 0
             if (e.direction > 0) then
                 offset = e.hitbox.w
@@ -22,7 +23,9 @@ function mushroomAI(e, dt)
             end
 
             vel.x = e.direction * 32
+            e.sprite.animation:resume()
         else
+            e.sprite.animation:pause() 
             vel.x = 0
         end
     end
@@ -60,11 +63,13 @@ function Mushroom:new(initialX, initialY)
     Components.hitbox(self, 10, 14)
     Components.physics(self, physicsFilter, true, false)
     Components.animatedSprite(self, assets.sprites.mushroom, self.animations.walk, 4, 2)
+    Components.animation(self)
     Components.health(self, 3)
     Components.causesDamage(self, Damage.constant(1), Predicates.isPlayer)
 
     self.direction = -1
     Components.controller(self, mushroomAI)
+    self.hit = 0
 end
 
 function Mushroom:onAnimationComplete(animation)
@@ -78,11 +83,25 @@ function Mushroom:onHealthDepleted()
     self.sprite.animation:reset()
     self.controller = nil
     self.physics = nil
+    self.causesDamage = nil
     game.registry:add(self)
 end
 
+function Mushroom:onDamageTaken(dealer, amount, dir)
+    if (self.health.current > 0) then 
+        self.health.invincible = 0.3
+        self.hit = 0.05
+        self.velocity.x = dir * (8 / game.dt)
+    end 
+end
+
 function Mushroom:draw()
-    self.sprite.flippedH = self.velocity.x < 0
+    if (self.hit > 0) then
+        self.sprite.shader = flashShader
+    else
+        self.sprite.shader = nil
+    end
+    self.sprite.flippedH = self.direction < 0
 end
 
 return function (layer, obj)
