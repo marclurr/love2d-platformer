@@ -74,17 +74,6 @@ function defineBooleanOption(labels, default)
     }
 end
 
-options = {}
-options.video = {}
-options.video.fullscreen = {
-    options = {
-        defineBooleanOption("Off", false),
-        defineBooleanOption("On", true)
-    },
-    defaultValue 
-
-}
-
 Gamestate = require("lib.hump.gamestate")
 
 local GameState = require("game")
@@ -100,7 +89,6 @@ function love.load(args)
     
 
     drawbuf = love.graphics.newCanvas(DRAW_WIDTH+16, DRAW_HEIGHT+16)
-    drawquad = love.graphics.newQuad(0, 0, DRAW_WIDTH, DRAW_HEIGHT, DRAW_WIDTH+16, DRAW_HEIGHT+16)
     updateDrawScaling()
 
     Gamestate.registerEvents()
@@ -127,7 +115,6 @@ function love.load(args)
         Gamestate.switch(title)
     end
     
-    winX, winY, _ = love.window.getPosition()
     
 end
 
@@ -202,19 +189,10 @@ function love.draw()
     
     if (programSwitches.debug) then 
         love.graphics.print(tostring(love.timer.getFPS()) .. "FPS" .. " " .. tostring(love.timer.getDelta()*1000) .. "ms", 10, 10)
-        love.graphics.print(tostring(game.registry:getEntityCount()) .. " entities", 10, 22)
-        love.graphics.print(tostring(game.world:countItems()) .. " colliders", 10, 34)
-    end
-end
-
-
-function love.resizes(w, h)
-    DRAW_SCALE = love.graphics.getWidth() / DRAW_WIDTH
-    if (DRAW_SCALE - math.floor(DRAW_SCALE) ~= 0) then
-        local height = DRAW_HEIGHT * DRAW_SCALE
-        viewportY = (love.graphics.getHeight() - height) / 2
-    else
-        viewportY = 0
+        if (Gamestate.current() == game) then
+            love.graphics.print(tostring(game.registry:getEntityCount()) .. " entities", 10, 22)
+            love.graphics.print(tostring(game.world:countItems()) .. " colliders", 10, 34)
+        end
     end
 end
 

@@ -12,16 +12,4 @@ function DebugLevel:new()
     self.complete = false
 end
 
--- function DebugLevel:onEnter_secret_area(obj)
---     print("Well done, you found the secret area")
--- end
-
--- function DebugLevel:update(dt)
---     self.timer = self.timer + dt
---     if (self.complete == false and self.timer >= 2.5) then
---         print("Complete!")
---         self.complete = true
---     end
--- end
-
 levels.debug = DebugLevel()

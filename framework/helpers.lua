@@ -8,25 +8,6 @@ function registerTileMapCollisions(world)
     end
 end
 
-function objectFactory(manager, factories)
-    return function(layer, obj)
-       
-        local fn = factories[obj.type]
-        if (fn) then
-            local r,l = fn(layer, obj)
-            if (l and l > 1) then 
-                manager:addAll(r)
-            else
-                manager:add(r)
-            end
-        else
-            if (programSwitches.debug) then
-                print("No factory defined for object of type [" .. obj.type .. "]")
-            end
-        end
-    end
-end
-
 function processProgramArguments(args)
     local parserDef = {
         ["-l"] = {"level", true},
@@ -52,16 +33,6 @@ function processProgramArguments(args)
         i = i + 1
     end
 end
-
-hitboxDebug = {    
-    drawTile = function(t)
-        love.graphics.setColor(1, 1, 1, 1)
-        if (t.one_way) then 
-            love.graphics.setColor(1, 1, 0, 1)
-        end
-        love.graphics.rectangle("line", t.x, t.y, t.w, t.h)
-    end
-}
 
 function centreText(text, offset, top) 
     local left = (DRAW_WIDTH /2) - (fnt:getWidth(text) / 2)

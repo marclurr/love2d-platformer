@@ -19,3 +19,4 @@ Things I'd do differently:
 - I know for sure I won't do UI in the same way again
 - I'd like an easier way to customise drawing on a per-entity basis. The method I used was a bit of a bodge which would make for a lot of duplication
 - A better animation system that allows animations and transitions to be defined in a declarative manner, instead of hand coded for each entity (i.e., an animation state machine)
+- The way input works is slightly convoluted and doesn't support multiple keys for the same action

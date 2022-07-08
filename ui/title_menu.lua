@@ -39,10 +39,9 @@ function TitleMenu:draw()
     centreText(text, 0, 17 + self.y)
     love.graphics.setColor(1, 1, 1, 1)
     centreText(text, 0, 16 + self.y)
-    -- local menuY = (DRAW_HEIGHT /2) - (self.super.getHeight(self) / 2)
-   
+    
     self.super.draw(self, 100)
-    -- self.super.draw(self, 64)
+ 
 end
 
 return TitleMenu()

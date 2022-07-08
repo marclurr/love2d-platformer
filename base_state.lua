@@ -36,18 +36,6 @@ function BaseState:keyreleased(key)
         end
     end
 
-
-
-    -- if (key == "escape") then 
-    --     love.event.quit()
-    -- elseif (key == "1") then
-    --     self:loadLevel(levels.debug)
-    -- elseif (key == "2") then
-    --     self:loadLevel(levels.level1)
-    -- elseif (key == "f11" or key == "p") then
-    --     love.window.setFullscreen(not love.window.getFullscreen(), "desktop")
-    --     DRAW_SCALE = love.graphics.getWidth() / DRAW_WIDTH
-    -- end
 end
 
 function BaseState:keypressed(key)
