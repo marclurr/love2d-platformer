@@ -26,10 +26,11 @@ it made the collision look inaccurate in other scenarios
 
 ## libs 
 
-- hump (only ended up using gamestate part of this)
-- anim8
-- bump
-- classic
+- hump (only ended up using gamestate part of this) - https://love2d.org/wiki/HUMP
+- anim8 - https://github.com/kikito/anim8 
+- bump - https://github.com/kikito/bump.lua 
+- classic - https://github.com/rxi/classic
+- tiny ECS - https://love2d.org/wiki/tiny-ecs
 
 ## Assets
 
