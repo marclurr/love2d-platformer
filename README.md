@@ -23,7 +23,14 @@ It's now probably at the point where you could just make levels and new entities
 - I'd like the platforming movement to give the player more leeway when they collided right on the very corner of an object (e.g., jumping over spikes, or being unfairly blocked by a ceilling because they jumped a fraction too soon). I tried doing this with smaller collision boxes and while it made those things feel better
 it made the collision look inaccurate in other scenarios
 
+## ECS resources
 
+I did a silly amount of looking around for good ECS resources and I did find a few which helped me
+
+- Spelunky Classic rewritten in C++ using th EnTT library https://github.com/dbeef/spelunky-psp, https://github.com/skypjack/entt
+- The EnTT author, skypjack, is a real ECS proponent has written many articles about the subject on his blog https://skypjack.github.io/tags/#entt
+- Commando Kibbles is a nice demo written using Tiny ECS its self https://github.com/bakpakin/tiny-ecs/tree/demo-commandokibbles
+- 
 ## libs 
 
 - hump (only ended up using gamestate part of this) - https://love2d.org/wiki/HUMP
