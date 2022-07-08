@@ -21,7 +21,6 @@ function DamageSystem:process(e, dt)
 
                 if (obj.onDamageTaken) then
                     local dir =  e.causesDamage.direction 
-                    print(dir)
                     if (dir == nil or dir == 0) then 
                         if (pos.x < obj.position.x) then 
                             dir = 1

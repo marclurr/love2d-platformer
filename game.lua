@@ -85,10 +85,10 @@ function Game:loadLevel(level)
         require("game.systems.player_death_system")(),
         require("game.systems.bump_system")(),
         -- require("game.systems.platforming_system")(),
-        require("game.systems.controller_system")(),
+        
         require("game.systems.damage_system")(),
         require("game.systems.physics_system")(),
-        
+        require("game.systems.controller_system")(),
         require("game.systems.platforming_animation")(),
         require("game.systems.trigger_system")(),
         require("game.systems.health_system")(),

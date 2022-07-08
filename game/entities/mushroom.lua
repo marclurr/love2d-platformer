@@ -64,7 +64,7 @@ function Mushroom:new(initialX, initialY)
     Components.physics(self, physicsFilter, true, false)
     Components.animatedSprite(self, assets.sprites.mushroom, self.animations.walk, 4, 2)
     Components.animation(self)
-    Components.health(self, 3)
+    Components.health(self, 2)
     Components.causesDamage(self, Damage.constant(1), Predicates.isPlayer)
 
     self.direction = -1

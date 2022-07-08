@@ -51,7 +51,7 @@ local function newPlayerAttack(x, y, direction)
     local sprOffset = direction == "l" and 2 or -2
 
     Components.position(e, x + xOffset, y)
-    Components.hitbox(e, width, 12 )
+    Components.hitbox(e, width, 10 )
     Components.animation(e)
     Player.animations.slash:reset()
     Components.animatedSprite(e, assets.sprites.hero, Player.animations.slash, sprOffset, 4)
@@ -60,6 +60,10 @@ local function newPlayerAttack(x, y, direction)
     Components.causesDamage(e, Damage.constant(1), function(e)
         return not e.isPlayer
     end, function() end, direction == "l" and -1 or 1)
+    Components.controller(e, function(e)
+        e.position.x = game.player.position.x + xOffset
+        e.position.y = game.player.position.y
+    end)
     return e
 end
 
@@ -76,7 +80,7 @@ local function playerPlatforming(e, x, jumpPressed, jumpReleased, dt)
     platforming.onGroundTime = math.max(0, platforming.onGroundTime - dt)
 
     -- reinitialise timers
-    platforming.jumpPressTime = jumpPressed and 4 * (1/60) or platforming.jumpPressTime
+    platforming.jumpPressTime = jumpPressed and 6 * (1/60) or platforming.jumpPressTime
     platforming.onGroundTime = physics.onGround and 6 * (1/60) or platforming.onGroundTime
 
     -- apply gravity
@@ -128,7 +132,7 @@ local function playerPlatforming(e, x, jumpPressed, jumpReleased, dt)
 
     if (jumpReleased ) then 
         if (physics.onGround == false and vel.y < platforming.minJumpVelocity and not physics.onCeilling) then
-            vel.y = platforming.minJumpVelocity
+            vel.y =  platforming.minJumpVelocity
         end
     end
 end
@@ -139,23 +143,35 @@ local function playerController(e, dt)
     local jumpReleased = false
 
     e.attacking = math.max(0, e.attacking - dt)
+    e.pauseSimulation = math.max(0, e.pauseSimulation - dt)
 
     if (e.health.current > 0) then
         x = input.right.pressed and 1 or input.left.pressed and -1 or 0
         jumpPressed = input.jump:justPressed()
         jumpReleased = input.jump:justReleased()
-    
-        if (e.physics.onGround and input.attack:justPressed() and e.attacking == 0) then 
+        local attackPressed = input.attack:justPressed()
+
+        e.attackPressTime = attackPressed and 8 * (1/60) or e.attackPressTime
+
+
+        if ( input.attack:justPressed() and e.attacking == 0) then 
             e.attacking = 0.225
+            e.pauseSimulation = 2 * (1/60)
+            e.health.invincible = 8 * (1/60)
             local direction = e.platforming.direction 
             game.registry:addEntity(newPlayerAttack(e.position.x ,  e.position.y , direction))
         end
+    else
+        e.velocity.x = 0
+        e.velocity.y = 0
+        return
     end
 
-    if (e.attacking == 0) then 
+    if (e.pauseSimulation == 0) then 
+        e.physics.simulate = true
         playerPlatforming(e, x, jumpPressed, jumpReleased, dt)
     else 
-        e.velocity.x = 0
+        e.physics.simulate = false
     end
 
     
@@ -173,7 +189,7 @@ local function playerAnimation(e, dt)
         return pan.die
     end
 
-    if (e.attacking > 0) then 
+    if (e.attacking >= 0.16) then 
         an = pan.attack
     else
         if (physics.onGround) then
@@ -205,6 +221,8 @@ function Player:new(initialX, initialY)
     self.isPlayer = true
     self.collisionLayer = COLLISION_ACTORS
     self.attacking = 0
+    self.pauseSimulation = 0
+    self.recover = 0
     Components.position(self, initialX, initialY)
     Components.velocity(self)
     Components.hitbox(self, 8, 12)
@@ -239,12 +257,13 @@ end
 
 function Player:draw()
     self.hit = math.max(0, self.hit - love.timer.getDelta())
+    self.recover = math.max(0, self.recover - game.dt)
     if (self.hit > 0) then
         self.sprite.shader = flashShader
     else
         self.sprite.shader = nil
-        if (self.health.invincible > 0) then 
-             self.sprite.mod[4] = math.ceil(math.sin(self.health.invincible * 20)) * 1
+        if (self.recover > 0) then 
+             self.sprite.mod[4] = math.ceil(math.sin(self.recover * 20)) * 1
         else 
             self.sprite.mod[4] = 1
         end
@@ -271,6 +290,7 @@ function Player:onDamageTaken(dealer, amount, dir)
         self.platforming.disabled = 0.2
         self.health.invincible = 2
         self.hit = 0.15
+        self.recover = 2
     end
     
 end

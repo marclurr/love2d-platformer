@@ -14,6 +14,10 @@ function PhysicsSystem:process(e, dt)
     local physics = e.physics
     local physicsFilter = physics.filter
 
+    if (physics.simulate == false) then 
+        return 
+    end
+    
     if (physics.affectedByGravity) then
         vel.y = vel.y + (PhysicsSystem.gravity * dt)
     end

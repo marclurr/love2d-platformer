@@ -20,10 +20,20 @@ function Menu:addElement(element)
     table.insert(self.elements, element)
 end
 
+function Menu:reset()
+    self.current = 1
+    if (not self.elements[self.current].enabled ) then
+        self:next()
+    end
+end
+
 function Menu:next()
     local i = (self.current - 1) + 1
 
     self.current = (i % #self.elements) + 1 
+    if (not self.elements[self.current].enabled ) then
+        self:next()
+    end
 end
 
 function Menu:previous()
@@ -32,19 +42,23 @@ function Menu:previous()
     else
         self.current = self.current - 1
     end
+
+    if (not self.elements[self.current].enabled ) then
+        self:previous()
+    end
 end
 
 function Menu:update(dt)
     local element = self.elements[self.current]
-    local d = 0
-    while element.enabled == false do
-        if (d == #self.elements) then
-            error("All elements of menu disabled!")
-        end
-        self:next()
-        element = self.elements[self.current]
-        d = d + 1
-    end
+    -- local d = 0
+    -- while element.enabled == false do
+    --     if (d == #self.elements) then
+    --         error("All elements of menu disabled!")
+    --     end
+    --     self:next()
+    --     element = self.elements[self.current]
+    --     d = d + 1
+    -- end
 
 end
 
@@ -115,7 +129,7 @@ end
 
 function MenuStack:push(menu)
     table.insert(self.stack, menu)
-    menu.current = 1
+    menu:reset()
 end
 
 function MenuStack:pop()
@@ -123,31 +137,38 @@ function MenuStack:pop()
 end
 
 function MenuStack:update(dt)
+   if (#self.stack == 0) then return end
     self.stack[#self.stack]:update(dt)
 end
 
 
 function MenuStack:getHeight()
+   if (#self.stack == 0) then return end
     return self.stack[#self.stack]:getHeight()
 end
 
 function MenuStack:draw(top)
+   if (#self.stack == 0) then return end
     self.stack[#self.stack]:draw(top)
 end
 
 function MenuStack:draw()
+   if (#self.stack == 0) then return end
     self.stack[#self.stack]:draw()
 end
 
 function MenuStack:accept()
+   if (#self.stack == 0) then return end
     self.stack[#self.stack]:accept()
 end
 
 function MenuStack:next()
+   if (#self.stack == 0) then return end
     self.stack[#self.stack]:next()
 end
 
 function MenuStack:previous()
+   if (#self.stack == 0) then return end
     self.stack[#self.stack]:previous()
 end
 

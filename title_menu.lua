@@ -10,8 +10,4 @@ function TitleState:new()
 
 end
 
-function TitleState:back()
-
-end
-
 return TitleState
