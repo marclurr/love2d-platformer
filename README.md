@@ -20,7 +20,7 @@ It's now probably at the point where you could just make levels and new entities
 - I know for sure I won't do UI in the same way again
 - I'd like an easier way to customise drawing on a per-entity basis. The method I used was a bit of a bodge which would make for a lot of duplication
 - A better animation system that allows animations and transitions to be defined in a declarative manner, instead of hand coded for each entity (i.e., an animation state machine)
-- I'd like the platforming movement to give the player more leeway when they collided right on the very corner of an object (i.e., jumping over spikes, or being unfairly blocked by a ceilling because they jumped a fraction too soon). I tried doing this with smaller collision boxes and while it mode those things feel better
+- I'd like the platforming movement to give the player more leeway when they collided right on the very corner of an object (e.g., jumping over spikes, or being unfairly blocked by a ceilling because they jumped a fraction too soon). I tried doing this with smaller collision boxes and while it made those things feel better
 it made the collision look inaccurate in other scenarios
 
 
