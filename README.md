@@ -9,13 +9,13 @@ changed the goal from metroidvania to 'level based collectathon with melee attac
 
 It's now probably at the point where you could just make levels and new entities for it, but I've decided not to continue due to boredom. 
 
-There are some good things about this project though:
+## Good things
 
 - It's not a bad crack at a platformer using an ECS architecture. Good examples of this are surprisingly thin on the ground, and while I wouldn't call this a masterpiece it works as a starting point
 - The platformer movement is smooth and predictable and quite fun to bounce around the level
 - The camera supports sub-pixel scrolling which looks very nice in a pixel-art game (It's worth noting you can get this for free if you render at the window resolution but with scaled textures, instead of rendering at a low resolution and scaling that up like I did)
 
-Things I'd do differently:
+## Different next time
 
 - I know for sure I won't do UI in the same way again
 - I'd like an easier way to customise drawing on a per-entity basis. The method I used was a bit of a bodge which would make for a lot of duplication
